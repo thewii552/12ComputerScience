@@ -16,7 +16,7 @@
  of the pizza 
 
  */
-package intro;
+package introAssignments;
 
 import TerminalIO.KeyboardReader;
 import java.text.NumberFormat;

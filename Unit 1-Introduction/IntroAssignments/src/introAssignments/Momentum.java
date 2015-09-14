@@ -10,7 +10,7 @@
 This is a simple console program which calculates momentum
                                                                     
  */
-package intro;
+package introAssignments;
 
 import TerminalIO.KeyboardReader;
 
