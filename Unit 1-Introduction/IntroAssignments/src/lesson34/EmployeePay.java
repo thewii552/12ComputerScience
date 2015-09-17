@@ -11,6 +11,7 @@ package lesson34;
                                                                     
  */
 import TerminalIO.KeyboardReader;
+import BreezySwing.Format;
 import java.text.NumberFormat;
 
 public class EmployeePay {
@@ -46,14 +47,18 @@ public class EmployeePay {
     }
 
     public static void showPay() {
-        System.out.println("\n\n\n\t     HOURS WORKED\tREGULAR PAY\tOVERTIME PAY\tTOTAL");
+        Format f = new Format();
+//        System.out.println("\n\n\n\t     HOURS WORKED\tREGULAR PAY\tOVERTIME PAY\tTOTAL");
+        System.out.println("\n\n"+f.justify('r',"HOURS",19)+f.justify('r',"REGULAR PAY",15)+f.justify('r',"OVERTIME PAY",15)+f.justify('r',"TOTAL",15));
 
         for (int x = 0; x < 5; x++) {
-            System.out.print("Employee " + (x + 1) + ":\t");
-            System.out.print(employee[x][0]+"\t\t");
-            System.out.print(formatter.format(employee[x][1])+"\t\t");
-            System.out.print(formatter.format(employee[x][2])+"\t\t");
-            System.out.println(formatter.format(employee[x][1]+employee[x][2])+"");
+            
+            System.out.print("Employee " + (x + 1)+":");
+            System.out.print(f.justify('r',Double.toString(employee[x][0]),8)); //Hours
+            System.out.print(f.justify('r',formatter.format(employee[x][1]),15)); //Reg Pay
+            System.out.print(f.justify('r',formatter.format(employee[x][2]),15)); //Overtime
+            System.out.println(f.justify('r',formatter.format(employee[x][1]+employee[x][2]),15)); //Total
+                    
 
         }
     }
