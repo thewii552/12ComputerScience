@@ -18,13 +18,13 @@ public class PowersChart {
         int powers=0;
         //Prompt for powers
         do{
-            powers = kb.readInt("Please enter a final power from 0-10: );
+            powers = kb.readInt("Please enter a final power from 0-10:" );
         }while (powers<0||powers>10);
 //Display the title
-System.out.println(Format.justify('r',"EXPONENT",8)+Format.justify('r',"POWER",5));
-System.out.println("====================");
-        for (int x = 0; x < powers; x++){ //Display the list of powers
-          System.out.println(Format.justify('r',"x",6)+Format.justify('r',Integer.toString(Math.pow(2,x)),5));
+System.out.println(Format.justify('r',"X",4)+Format.justify('r',"2^X",5));
+System.out.println("=============");
+        for (int x = 0; x <= powers; x++){ //Display the list of powers
+          System.out.println(Format.justify('r',x,4)+Format.justify('l',"",3)+Format.justify('l',Math.pow(2,x),7,0));
   
         }
     }
