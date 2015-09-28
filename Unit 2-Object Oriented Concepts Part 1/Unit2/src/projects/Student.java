@@ -62,6 +62,18 @@ public class Student {
         return Math.max(mark[0], (Math.max(mark[1], mark[2])));
     }
 
+    public boolean[] checkData() {
+        boolean dataOut[] = new boolean[4];        //Name can't be too short
+        dataOut[0] = (name.length() <= 1);
+        //Marks must be valid
+        for (int x = 0; x < 3; x++) {
+            dataOut[x + 1] = (mark[x] < 0 || mark[x] > 100);
+        }
+
+        return dataOut;
+
+    }
+
     @Override
     public String toString() {
         String s = "Name:\t" + name;
