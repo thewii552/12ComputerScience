@@ -8,12 +8,21 @@
  |__|__||__|__||_____||__|\_||_____| \_/\_/      |_____||____|  |__|  
                                                                     
  */
-package Lessons;
+package projects;
 
 
-public class RunStudents {
-    public static void main (String arguments[]){
-        
+public class Dice {
+    private int number;
+    
+    public void Dice(){
+        roll();
     }
-
+    
+    public void roll(){
+        number = (int)(Math.random()*6+1);
+    }
+    public int getNumber(){
+        return number;
+    }
+    
 }
