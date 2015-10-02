@@ -38,10 +38,10 @@ public class Face {
 
     /**
      *
-     * @param newRad Set new diameter as float value in pixels
+     * @param newDia Set new diameter as float value in pixels
      */
-    public void setRadius(float newRad) {
-        diameter = newRad;
+    public void setDiameter(float newDia) {
+        diameter = newDia;
     }
 
     /**
