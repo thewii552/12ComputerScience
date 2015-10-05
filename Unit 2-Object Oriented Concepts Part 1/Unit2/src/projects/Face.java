@@ -43,6 +43,13 @@ public class Face {
     public void setDiameter(float newDia) {
         diameter = newDia;
     }
+    /**
+     * 
+     * @return the happiness
+     */
+    public byte getHappiness(){
+        return happiness;
+    }
 
     /**
      *
