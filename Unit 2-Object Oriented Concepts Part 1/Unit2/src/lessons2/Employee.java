@@ -24,7 +24,7 @@ public class Employee {
     }
 
     public boolean setType(int t) {
-        if (t != 1 && t != 2) {
+        if (t < 1 || t > 2) {
             return false;
         } else {
             type = t;
@@ -45,7 +45,7 @@ public class Employee {
     }
 
     public boolean setHours(double h) {
-        boolean hoursOK = h >= 6.25 && h <= 30;
+        boolean hoursOK = h >= 6.25 && h <= 60;
         if (hoursOK) {
             rate = h;
             return true;
@@ -69,15 +69,15 @@ public class Employee {
     }
 
     public String getHourRules() {
-        return "Must be from 1 to 60";
+        return "Hours must be from 1 to 60";
     }
 
     public String getRateRules() {
-        return "Must be from 6.75 to 30.75";
+        return "Rate must be from 6.75 to 30.75";
     }
 
     public String getTypeRules() {
-        return "Must be 1 or 2";
+        return "Type must be 1 or 2";
 
     }
 

@@ -55,6 +55,7 @@ public class DrawFace extends PApplet {
         background(255);
         face1.draw();
         //Text for the slider label
+        fill(0);
         text("Happiness: "+Byte.toString(face1.getHappiness()),45,465);
         
     }
