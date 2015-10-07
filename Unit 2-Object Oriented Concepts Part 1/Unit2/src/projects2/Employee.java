@@ -8,7 +8,7 @@
  |__|__||__|__||_____||__|\_||_____| \_/\_/      |_____||____|  |__|  
                                                                     
  */
-package lessons2;
+package projects2;
 
 public class Employee {
 

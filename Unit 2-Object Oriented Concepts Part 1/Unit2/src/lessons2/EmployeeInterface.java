@@ -1,5 +1,6 @@
 package lessons2;
 
+import java.awt.Color;
 import javax.swing.JOptionPane;
 
 /**
@@ -12,6 +13,7 @@ public class EmployeeInterface extends javax.swing.JFrame {
     public EmployeeInterface() {
         initComponents();
         e = new Employee();
+        getContentPane().setBackground(Color.MAGENTA);
     }
 
     /**
@@ -39,12 +41,16 @@ public class EmployeeInterface extends javax.swing.JFrame {
         setTitle("Employee Calculator");
         setResizable(false);
 
+        jLabel1.setForeground(new java.awt.Color(51, 255, 51));
         jLabel1.setText("Name");
 
+        jLabel2.setForeground(new java.awt.Color(51, 255, 51));
         jLabel2.setText("Type");
 
+        jLabel3.setForeground(new java.awt.Color(102, 255, 102));
         jLabel3.setText(" Hours");
 
+        jLabel4.setForeground(new java.awt.Color(0, 255, 0));
         jLabel4.setText("Rate");
 
         txtName.addActionListener(new java.awt.event.ActionListener() {
@@ -53,6 +59,7 @@ public class EmployeeInterface extends javax.swing.JFrame {
             }
         });
 
+        btnPay.setForeground(new java.awt.Color(0, 204, 153));
         btnPay.setText("Get Pay");
         btnPay.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -60,6 +67,7 @@ public class EmployeeInterface extends javax.swing.JFrame {
             }
         });
 
+        btnNew.setForeground(new java.awt.Color(51, 51, 255));
         btnNew.setText("New Employee");
         btnNew.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -162,7 +170,8 @@ public class EmployeeInterface extends javax.swing.JFrame {
         rate = Double.parseDouble(txtRate.getText());
         } 
         catch (NumberFormatException err){
-            JOptionPane.showMessageDialog(this, "Please fill all fields");        
+            
+            JOptionPane.showMessageDialog(this, "Please fill all fields with valid data");        
         }
         String em = "";
         
@@ -200,7 +209,7 @@ public class EmployeeInterface extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Windows".equals(info.getName())) {
+                if ("CDE/Motif".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
