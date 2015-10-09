@@ -15,7 +15,10 @@ public class GuessGame extends javax.swing.JFrame {
     GuessMachine g;
     public GuessGame() {
         initComponents();
-         g= new GuessMachine();
+        g= new GuessMachine();
+        
+        System.out.println(g.getNum());
+         
     }
 
     /**
@@ -102,7 +105,10 @@ public class GuessGame extends javax.swing.JFrame {
 
     private void btnGuessActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuessActionPerformed
         if (g.setGuess(Byte.parseByte(txtGuess.getText()))){
-            
+            lblHint.setText(g.giveHint());
+            lblGuesses.setText("Number of guesses: "+g.getNumGuesses());
+        }else{
+            lblHint.setText("Enter a guess from 1-100");
         }
     }//GEN-LAST:event_btnGuessActionPerformed
 
@@ -114,6 +120,7 @@ public class GuessGame extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+        
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.

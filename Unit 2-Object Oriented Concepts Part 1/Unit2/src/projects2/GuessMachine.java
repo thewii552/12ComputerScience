@@ -14,16 +14,16 @@ public class GuessMachine {
 
     byte num, lastGuess, numGuesses;
 
-    void GuessMachine() {
+    public GuessMachine() {
         //Create the random number
-        num = (byte) (Math.random() * 100 + 1);
+        num=(byte)(Math.random()*100+1);
         numGuesses = 0;
         lastGuess = 0;
     }
 
     String giveHint() {
         //Determine the hint to return
-        if (lastGuess > num) {
+       if (lastGuess > num) {
             return ("You guessed " + lastGuess + ". TOO HIGH");
 
         } else if (lastGuess < num) {
@@ -46,6 +46,10 @@ public class GuessMachine {
     
     byte getNumGuesses(){
         return numGuesses;
+    }
+    byte getNum(){
+        
+        return num;
     }
 
 }
