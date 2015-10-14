@@ -14,11 +14,10 @@ public class Patron {
 
     private Book[] books = new Book[3];
     private int numBooks = 0;
-    private String name;
+    private final String name;
 
     public Patron(String n) {
         name = n;
-        books = null;
     }
 
     //If the patron has borrowed 3 books, return false. Else, borrow the book and return true
