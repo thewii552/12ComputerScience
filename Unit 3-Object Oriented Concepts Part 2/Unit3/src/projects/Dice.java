@@ -20,7 +20,7 @@ public class Dice {
 
     public void Dice() {
         roll();
-      URL file = getClass().getResource("d1.jpg");
+      URL file = getClass().getResource("/img/d2.jpg");
         pic = new ImageIcon(file);
     }
 

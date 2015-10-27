@@ -20,6 +20,8 @@ public class CrapsGUI extends javax.swing.JFrame {
         initComponents();
         lblTest.setIcon(d.getPic());
     }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -34,7 +36,8 @@ public class CrapsGUI extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        lblTest.setText("jLabel1");
+        lblTest.setIcon(new javax.swing.ImageIcon(getClass().getResource("/projects/d1.JPG"))); // NOI18N
+        lblTest.setToolTipText("");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -43,14 +46,14 @@ public class CrapsGUI extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(64, 64, 64)
                 .addComponent(lblTest)
-                .addContainerGap(302, Short.MAX_VALUE))
+                .addContainerGap(248, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(90, 90, 90)
                 .addComponent(lblTest)
-                .addContainerGap(196, Short.MAX_VALUE))
+                .addContainerGap(122, Short.MAX_VALUE))
         );
 
         pack();
