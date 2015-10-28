@@ -6,19 +6,21 @@
 package projects;
 
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author andr6491
  */
-public class AddPopup extends javax.swing.JFrame {
+public class StuPopup extends javax.swing.JDialog {
+
+    private Student s;
 
     /**
-     * Creates new form AddPopup
+     * Creates new form StuPopup
      */
-    Student s;
-
-    public AddPopup() {
+    public StuPopup(java.awt.Frame parent, boolean modal) {
+        super(parent, modal);
         initComponents();
     }
 
@@ -37,7 +39,7 @@ public class AddPopup extends javax.swing.JFrame {
         txtName = new javax.swing.JTextField();
         btnOK = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         tblMarks.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -48,7 +50,7 @@ public class AddPopup extends javax.swing.JFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Float.class, java.lang.Float.class, java.lang.Float.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -57,11 +59,6 @@ public class AddPopup extends javax.swing.JFrame {
         });
         tblMarks.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(tblMarks);
-        if (tblMarks.getColumnModel().getColumnCount() > 0) {
-            tblMarks.getColumnModel().getColumn(0).setResizable(false);
-            tblMarks.getColumnModel().getColumn(1).setResizable(false);
-            tblMarks.getColumnModel().getColumn(2).setResizable(false);
-        }
 
         jLabel1.setText("Student Name:");
 
@@ -117,7 +114,9 @@ public class AddPopup extends javax.swing.JFrame {
     private void txtNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNameActionPerformed
-
+    public Student getStudent() {
+        return s;
+    }
     private void btnOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOKActionPerformed
         // TODO add your handling code here:
         int marks[] = new int[3];
@@ -127,7 +126,7 @@ public class AddPopup extends javax.swing.JFrame {
             marks[1] = Integer.parseInt(tblMarks.getValueAt(0, 1).toString());
             marks[2] = Integer.parseInt(tblMarks.getValueAt(0, 2).toString());
             System.out.println(marks[2]);
-        }catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Fill out all fields\nPress enter on each mark");
             return;
         }
@@ -135,6 +134,13 @@ public class AddPopup extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnOKActionPerformed
 
+    public void setForm(Student s){
+        DefaultTableModel model= (DefaultTableModel)(tblMarks.getModel());
+        txtName.setText(s.getName());
+        model.setValueAt(s.getMark(1), 0,0);
+        model.setValueAt(s.getMark(2), 0,1);
+        model.setValueAt(s.getMark(3), 0,2);
+    }
     /**
      * @param args the command line arguments
      */
@@ -146,32 +152,35 @@ public class AddPopup extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Windows".equals(info.getName())) {
+                if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AddPopup.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(StuPopup.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AddPopup.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(StuPopup.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AddPopup.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(StuPopup.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AddPopup.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(StuPopup.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
-        /* Create and display the form */
+        /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AddPopup().setVisible(true);
+                StuPopup dialog = new StuPopup(new javax.swing.JFrame(), true);
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        System.exit(0);
+                    }
+                });
+                dialog.setVisible(true);
             }
         });
-    }
-
-    public Student getStudent() {
-        return s;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

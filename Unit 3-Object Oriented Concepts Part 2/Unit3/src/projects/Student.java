@@ -10,7 +10,6 @@
  */
 package projects;
 
-
 public class Student {
 
     //First step: fields
@@ -29,11 +28,11 @@ public class Student {
         mark[1] = b;
         mark[2] = c;
     }
-    public Student(String n, int[] m){
+
+    public Student(String n, int[] m) {
         mark = m;
         name = n;
     }
-    
 
     public Student(Student other) {
         this(other.name, other.mark[0], other.mark[1], other.mark[2]);
@@ -76,6 +75,24 @@ public class Student {
 
         return dataOut;
 
+    }
+
+    public String validate() {
+        String error = "";
+        if (name.length() < 2) {//Name is not valid
+            error = "Name is not valid";
+        }
+        if (mark[0] < 0 || mark[0] > 100 || mark[1] < 0 || mark[1] > 100 || mark[2] < 0 || mark[2] > 100) {//Mark is not valid
+            if ("".equals(error)) {
+                error = "At least one mark is not valid";
+            } else {
+                error += "\nAt least one mark is not valid";
+            }
+        }
+        if (!error.equals("")) {
+            error += "\nPlease re-enter all data";
+        }
+        return error;
     }
 
     @Override
