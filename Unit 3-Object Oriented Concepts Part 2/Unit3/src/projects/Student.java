@@ -29,6 +29,7 @@ public class Student {
         mark[2] = c;
     }
 
+
     public Student(String n, int[] m) {
         mark = m;
         name = n;

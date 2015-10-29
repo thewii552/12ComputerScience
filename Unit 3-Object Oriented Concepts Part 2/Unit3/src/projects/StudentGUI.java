@@ -40,7 +40,7 @@ public class StudentGUI extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         btnFirst = new javax.swing.JButton();
         btnBack = new javax.swing.JButton();
-        btnFor = new javax.swing.JButton();
+        btnNext = new javax.swing.JButton();
         btnLast = new javax.swing.JButton();
         btnAdd = new javax.swing.JButton();
         btnMod = new javax.swing.JButton();
@@ -68,6 +68,7 @@ public class StudentGUI extends javax.swing.JFrame {
         jLabel5.setText("Average:");
 
         btnFirst.setText("<<");
+        btnFirst.setEnabled(false);
         btnFirst.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnFirstActionPerformed(evt);
@@ -75,16 +76,19 @@ public class StudentGUI extends javax.swing.JFrame {
         });
 
         btnBack.setText("<");
+        btnBack.setEnabled(false);
         btnBack.setMaximumSize(new java.awt.Dimension(26, 27));
         btnBack.setMinimumSize(new java.awt.Dimension(26, 27));
         btnBack.setPreferredSize(new java.awt.Dimension(26, 27));
 
-        btnFor.setText(">");
-        btnFor.setMaximumSize(new java.awt.Dimension(26, 27));
-        btnFor.setMinimumSize(new java.awt.Dimension(26, 27));
-        btnFor.setPreferredSize(new java.awt.Dimension(26, 27));
+        btnNext.setText(">");
+        btnNext.setEnabled(false);
+        btnNext.setMaximumSize(new java.awt.Dimension(26, 27));
+        btnNext.setMinimumSize(new java.awt.Dimension(26, 27));
+        btnNext.setPreferredSize(new java.awt.Dimension(26, 27));
 
         btnLast.setText(">>");
+        btnLast.setEnabled(false);
 
         btnAdd.setText("Add");
         btnAdd.addActionListener(new java.awt.event.ActionListener() {
@@ -94,6 +98,7 @@ public class StudentGUI extends javax.swing.JFrame {
         });
 
         btnMod.setText("Modify");
+        btnMod.setEnabled(false);
         btnMod.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnModActionPerformed(evt);
@@ -137,7 +142,7 @@ public class StudentGUI extends javax.swing.JFrame {
                         .addGap(10, 10, 10)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnFor, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnNext, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnLast))
                             .addGroup(layout.createSequentialGroup()
@@ -196,7 +201,7 @@ public class StudentGUI extends javax.swing.JFrame {
                     .addComponent(btnFirst)
                     .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnFor, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnNext, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(btnLast)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -238,13 +243,35 @@ public class StudentGUI extends javax.swing.JFrame {
 
         showStudent();
         counter();
+        
+        //Enable the modify button
+        btnMod.setEnabled(true);
+        scrollButtons();
 
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnModActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModActionPerformed
-        // TODO add your handling code here:
-        students[0] = new Student("Khaled", 85, 90, 0);
+        StuPopup form = new StuPopup(this, true);
+        form.setForm(students[current]);
+        form.setModal(true);
+        form.setLocationRelativeTo(this);
+        form.setVisible(true);
+        //Send in student
+        
+        //Temp student to check for errors
+        Student temp = form.getStudent();
+        String err = temp.validate();
+        if (err.equals("")) { //The data is OK
+            //Get the info and add it to the current student
+            students[current]=temp;
+            
+        } else { //Bad data
+            JOptionPane.showMessageDialog(this, err);
+        }
+        System.out.println(err);
+
         showStudent();
+        counter();
     }//GEN-LAST:event_btnModActionPerformed
     public void showStudent() {
         if (students[current] != null) {
@@ -260,6 +287,33 @@ public class StudentGUI extends javax.swing.JFrame {
 
     public void counter() {
         txtCount.setText(current + 1 + "/" + numStudents);
+    }
+    
+    public void scrollButtons(){
+        if (numStudents!=0){ //There's students. This code can be used
+            //Are we at an end?
+            //First
+            if (current ==0){
+                //Disable the "first" and "back" button
+                btnFirst.setEnabled(false);
+                btnBack.setEnabled(false);
+                
+                //Enable the other two
+                btnLast.setEnabled(true);
+                btnNext.setEnabled(true);
+            }
+            
+            //Last
+            if (current==numStudents-1){
+                //Disable "last" and "next" buttons
+                btnLast.setEnabled(false);
+                btnNext.setEnabled(false);
+                
+                //Enable the other two
+                btnFirst.setEnabled(true);
+                btnBack.setEnabled(true);
+            }
+        }
     }
 
     /**
@@ -301,9 +355,9 @@ public class StudentGUI extends javax.swing.JFrame {
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnBack;
     private javax.swing.JButton btnFirst;
-    private javax.swing.JButton btnFor;
     private javax.swing.JButton btnLast;
     private javax.swing.JButton btnMod;
+    private javax.swing.JButton btnNext;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

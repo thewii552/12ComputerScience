@@ -39,7 +39,8 @@ public class StuPopup extends javax.swing.JDialog {
         txtName = new javax.swing.JTextField();
         btnOK = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setTitle("Student Modifier");
 
         tblMarks.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -137,9 +138,9 @@ public class StuPopup extends javax.swing.JDialog {
     public void setForm(Student s){
         DefaultTableModel model= (DefaultTableModel)(tblMarks.getModel());
         txtName.setText(s.getName());
-        model.setValueAt(s.getMark(1), 0,0);
-        model.setValueAt(s.getMark(2), 0,1);
-        model.setValueAt(s.getMark(3), 0,2);
+        model.setValueAt(s.getMark(0), 0,0);
+        model.setValueAt(s.getMark(1), 0,1);
+        model.setValueAt(s.getMark(2), 0,2);
     }
     /**
      * @param args the command line arguments

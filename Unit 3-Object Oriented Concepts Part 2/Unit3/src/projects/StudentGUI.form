@@ -46,7 +46,7 @@
                       <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
-                              <Component id="btnFor" min="-2" pref="44" max="-2" attributes="0"/>
+                              <Component id="btnNext" min="-2" pref="44" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="btnLast" min="-2" max="-2" attributes="0"/>
                           </Group>
@@ -122,7 +122,7 @@
                   <Component id="btnFirst" min="-2" max="-2" attributes="0"/>
                   <Component id="btnBack" min="-2" pref="22" max="-2" attributes="0"/>
                   <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                      <Component id="btnFor" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
+                      <Component id="btnNext" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
                       <Component id="btnLast" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -172,6 +172,7 @@
     <Component class="javax.swing.JButton" name="btnFirst">
       <Properties>
         <Property name="text" type="java.lang.String" value="&lt;&lt;"/>
+        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnFirstActionPerformed"/>
@@ -180,6 +181,7 @@
     <Component class="javax.swing.JButton" name="btnBack">
       <Properties>
         <Property name="text" type="java.lang.String" value="&lt;"/>
+        <Property name="enabled" type="boolean" value="false"/>
         <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[26, 27]"/>
         </Property>
@@ -191,9 +193,10 @@
         </Property>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="btnFor">
+    <Component class="javax.swing.JButton" name="btnNext">
       <Properties>
         <Property name="text" type="java.lang.String" value="&gt;"/>
+        <Property name="enabled" type="boolean" value="false"/>
         <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[26, 27]"/>
         </Property>
@@ -208,6 +211,7 @@
     <Component class="javax.swing.JButton" name="btnLast">
       <Properties>
         <Property name="text" type="java.lang.String" value="&gt;&gt;"/>
+        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="btnAdd">
@@ -221,6 +225,7 @@
     <Component class="javax.swing.JButton" name="btnMod">
       <Properties>
         <Property name="text" type="java.lang.String" value="Modify"/>
+        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnModActionPerformed"/>
