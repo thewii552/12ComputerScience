@@ -55,6 +55,7 @@ public class StudentGUI extends javax.swing.JFrame {
         txtAverage = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Student Browser 1.0");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         jLabel1.setText("Name:");
@@ -80,15 +81,30 @@ public class StudentGUI extends javax.swing.JFrame {
         btnBack.setMaximumSize(new java.awt.Dimension(26, 27));
         btnBack.setMinimumSize(new java.awt.Dimension(26, 27));
         btnBack.setPreferredSize(new java.awt.Dimension(26, 27));
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackActionPerformed(evt);
+            }
+        });
 
         btnNext.setText(">");
         btnNext.setEnabled(false);
         btnNext.setMaximumSize(new java.awt.Dimension(26, 27));
         btnNext.setMinimumSize(new java.awt.Dimension(26, 27));
         btnNext.setPreferredSize(new java.awt.Dimension(26, 27));
+        btnNext.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNextActionPerformed(evt);
+            }
+        });
 
         btnLast.setText(">>");
         btnLast.setEnabled(false);
+        btnLast.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLastActionPerformed(evt);
+            }
+        });
 
         btnAdd.setText("Add");
         btnAdd.addActionListener(new java.awt.event.ActionListener() {
@@ -198,10 +214,11 @@ public class StudentGUI extends javax.swing.JFrame {
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(2, 2, 2)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnFirst)
-                    .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnNext, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnFirst)
+                        .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnNext, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(btnLast)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -220,7 +237,12 @@ public class StudentGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnFirstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFirstActionPerformed
-        // TODO add your handling code here:
+    //Set current to 0
+        current = 0;
+        //Show the student
+        showStudent();
+        //Disable buttons accordingly
+        scrollButtons();
     }//GEN-LAST:event_btnFirstActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
@@ -235,7 +257,7 @@ public class StudentGUI extends javax.swing.JFrame {
             numStudents++;
             current = numStudents - 1;
             students[current] = new Student(form.getStudent());
-            
+
         } else { //Bad data
             JOptionPane.showMessageDialog(this, err);
         }
@@ -243,7 +265,7 @@ public class StudentGUI extends javax.swing.JFrame {
 
         showStudent();
         counter();
-        
+
         //Enable the modify button
         btnMod.setEnabled(true);
         scrollButtons();
@@ -257,14 +279,14 @@ public class StudentGUI extends javax.swing.JFrame {
         form.setLocationRelativeTo(this);
         form.setVisible(true);
         //Send in student
-        
+
         //Temp student to check for errors
         Student temp = form.getStudent();
         String err = temp.validate();
         if (err.equals("")) { //The data is OK
             //Get the info and add it to the current student
-            students[current]=temp;
-            
+            students[current] = temp;
+
         } else { //Bad data
             JOptionPane.showMessageDialog(this, err);
         }
@@ -273,6 +295,32 @@ public class StudentGUI extends javax.swing.JFrame {
         showStudent();
         counter();
     }//GEN-LAST:event_btnModActionPerformed
+
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+ //Decrement current
+        current--;
+        //Show the student
+        showStudent();
+        //Disable buttons accordingly
+        scrollButtons();    }//GEN-LAST:event_btnBackActionPerformed
+
+    private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
+         //Increment current
+        current ++;
+        //Show the student
+        showStudent();
+        //Disable buttons accordingly
+        scrollButtons();
+    }//GEN-LAST:event_btnNextActionPerformed
+
+    private void btnLastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLastActionPerformed
+        //Go to the last student
+        current = numStudents-1;
+        //Show the student
+        showStudent();
+        //Disable the buttons
+        scrollButtons();
+    }//GEN-LAST:event_btnLastActionPerformed
     public void showStudent() {
         if (students[current] != null) {
             Student cs = students[current];
@@ -283,35 +331,48 @@ public class StudentGUI extends javax.swing.JFrame {
             txtTest3.setText(Integer.toString(cs.getMark(2)));
             txtAverage.setText(Integer.toString(cs.getAverage()));
         }
+        
+        counter();
     }
 
     public void counter() {
         txtCount.setText(current + 1 + "/" + numStudents);
     }
-    
-    public void scrollButtons(){
-        if (numStudents!=0){ //There's students. This code can be used
+
+    public void scrollButtons() {
+        if (numStudents > 1) { //There's enough students. This code can be used
             //Are we at an end?
             //First
-            if (current ==0){
+            if (current == 0) {
                 //Disable the "first" and "back" button
                 btnFirst.setEnabled(false);
                 btnBack.setEnabled(false);
-                
+
                 //Enable the other two
                 btnLast.setEnabled(true);
                 btnNext.setEnabled(true);
             }
-            
+
             //Last
-            if (current==numStudents-1){
+            else if (current == numStudents - 1) {
                 //Disable "last" and "next" buttons
                 btnLast.setEnabled(false);
                 btnNext.setEnabled(false);
-                
+
                 //Enable the other two
                 btnFirst.setEnabled(true);
                 btnBack.setEnabled(true);
+            }else{
+            //In the middle. Enable everything
+                btnLast.setEnabled(true);
+                btnNext.setEnabled(true);
+                btnFirst.setEnabled(true);
+                btnBack.setEnabled(true);
+            }
+            
+            //Check if there's 10 students. If so, disable the add button
+            if (numStudents == 10){
+                btnAdd.setEnabled(false);
             }
         }
     }
