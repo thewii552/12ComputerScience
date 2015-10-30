@@ -20,14 +20,12 @@ public class Dice {
 
     public void Dice() {
         roll();
-      URL file = getClass().getResource("/img/d2.jpg");
-        pic = new ImageIcon(file);
     }
+  
 
     public void roll() {
         number = (int) (Math.random() * 6 + 1);
-         URL file = getClass().getResource("d" + number + ".jpg");
-        pic = new ImageIcon(file);
+        pic = new ImageIcon("src/projects/img/d"+number+".JPG");
     }
 
     public int getNumber() {
