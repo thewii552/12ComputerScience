@@ -121,13 +121,15 @@ public class StuPopup extends javax.swing.JDialog {
     private void btnOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOKActionPerformed
         // TODO add your handling code here:
         int marks[] = new int[3];
-        String name = txtName.getText();
+        String name;
         try {
+        name = txtName.getText();
+        
             marks[0] = Integer.parseInt(tblMarks.getValueAt(0, 0).toString());
             marks[1] = Integer.parseInt(tblMarks.getValueAt(0, 1).toString());
             marks[2] = Integer.parseInt(tblMarks.getValueAt(0, 2).toString());
             System.out.println(marks[2]);
-        } catch (NumberFormatException e) {
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Fill out all fields\nPress enter on each mark");
             return;
         }
