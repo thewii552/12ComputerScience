@@ -1,0 +1,119 @@
+/*
+ ____  ____   ___    ____     ___ __    __      _      ____  ______ 
+ /    ||    \ |   \  |    \   /  _]  |__|  |    | |    |    ||      |
+ |  o  ||  _  ||    \ |  D  ) /  [_|  |  |  |    | |     |  | |      |
+ |     ||  |  ||  D  ||    / |    _]  |  |  |    | |___  |  | |_|  |_|
+ |  _  ||  |  ||     ||    \ |   [_|  `  '  |    |     | |  |   |  |  
+ |  |  ||  |  ||     ||  .  \|     |\      /     |     | |  |   |  |  
+ |__|__||__|__||_____||__|\_||_____| \_/\_/      |_____||____|  |__|  
+                                                                    
+ */
+package Projects.shapes;
+
+import TurtleGraphics.Pen;
+
+public class Triangle extends Shape {
+
+    private double xPos2, xPos3, yPos2, yPos3;
+    
+    public Triangle(double x1, double y1, double x2, double y2, double x3, double y3){
+        xPos = x1;
+        yPos = y1;
+        xPos2 = x2;
+        yPos2 = y2;
+        xPos3 = x3;
+        yPos3 = y3;
+    }
+    
+    public Triangle(){
+        this (0,0,100,0,50,100);
+    }
+
+    @Override
+    public double getArea() {
+        /*Area = base* height*0.5
+         Find max and min x value for base, max and min y value for height
+         */
+        //Calculate the base
+        double base = Math.max(xPos, Math.max(xPos2, xPos3)) - Math.min(xPos, Math.max(xPos2, xPos3));
+
+        //Calculate the height
+        double height = Math.max(yPos, Math.max(yPos2, yPos3)) - Math.min(yPos, Math.max(yPos2, yPos3));
+
+        //Return the area
+        return base * height * 0.5;
+    }
+
+    @Override
+    public void draw(Pen p) {
+        //Lift the pen
+        p.up();
+        //Go to first position
+        p.move(xPos, yPos);
+        //Lower the pen
+        p.down();
+        //Move to all the points
+        p.move(xPos2, yPos2);
+        p.move(xPos3, yPos3);
+        p.move(xPos, yPos);
+    }
+
+    @Override
+    public void stretchBy(double factor) {
+        //Determine coordinate distance and multiply by factor
+        //Then adjust coordinates respectively
+        
+        //Use xpos and ypos as "home"
+        
+        //Start with point 2
+        double distX = (xPos2-xPos)*factor;
+        double distY = (yPos2 - yPos)*factor;
+        //Go to that place
+        xPos2 = xPos+distX;
+        yPos2 = yPos+distY;
+        
+        //Point 3
+        distX = (xPos3-xPos)*factor;
+        distY = (yPos3 - yPos)*factor;
+        //Go to that place
+        xPos3 = xPos+distX;
+        yPos3 = yPos+distY;
+        
+    }
+    
+    @Override
+    public void move (double x, double y){
+        double difx = xPos - x;
+        double dify = yPos - y;
+        
+        xPos = x;
+        yPos = y;
+        xPos2 = xPos2-difx;
+        yPos2 = yPos2-dify;
+        xPos3 = xPos3-difx;
+        yPos3 = yPos3-dify;
+    }
+    
+    public void move(double x1, double y1, double x2, double y2, double x3, double y3){
+        xPos = x1;
+        yPos = y1;
+        xPos2 = x2;
+        yPos2 = y2;
+        xPos3 = x3;
+        yPos3 = y3;
+    }
+
+    @Override
+    public String toString() {
+        String str = "Triangle\n";
+        
+        str += "Points: (" + xPos + ", " + yPos + "), " + 
+                "(" + xPos2 + ", " + yPos2 + "), " + 
+                "(" + xPos3 + ", " + yPos3 + "), " + 
+                "\n";
+        
+        str += "Area: " + Math.round(getArea()) + "pixels\n";
+        return str;
+    }
+
+}

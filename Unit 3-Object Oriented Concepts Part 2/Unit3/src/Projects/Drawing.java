@@ -8,7 +8,9 @@
  |__|__||__|__||_____||__|\_||_____| \_/\_/      |_____||____|  |__|  
                                                                     
  */
-package Lessons;
+package Projects;
+
+import Projects.shapes.*;
 
 import TurtleGraphics.*;
 import java.awt.Color;
@@ -33,6 +35,15 @@ public class Drawing {
         s.draw(p);
         System.out.println(s);
         s= new Wheel(-100,100,100,24);
+        s.draw(p);
+        s=  new Triangle();
+        s.draw(p);
+        System.out.println(s);
+        
+        s.move (-100,178);
+        s.draw(p);
+        p.setColor(Color.GREEN);
+        s.stretchBy(2);
         s.draw(p);
         
     }

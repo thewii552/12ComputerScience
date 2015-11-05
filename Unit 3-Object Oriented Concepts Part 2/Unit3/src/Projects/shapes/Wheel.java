@@ -8,7 +8,7 @@
  |__|__||__|__||_____||__|\_||_____| \_/\_/      |_____||____|  |__|  
                                                                     
  */
-package Lessons;
+package Projects.shapes;
 
 import TurtleGraphics.Pen;
 
@@ -47,10 +47,22 @@ public class Wheel extends Circle {
             p.up();
             p.move(homeX, homeY);
             p.turn(360/numSpokes);
-            System.out.println(360/numSpokes);
+            
             
             
         }
+        
+        
+    }
+    
+    @Override
+    public String toString() {
+        String str = "WHEEL\n";
+        str+= "Radius: "+super.getRadius()+"\n";
+        str+="Location: ("+xPos+", "+yPos+")\n";
+        str+= "Area: "+Math.round(getArea())+"pixels\n";
+        str += "Number of spokes: "+numSpokes+"\n";
+        return str;
     }
 
 }
