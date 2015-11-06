@@ -22,6 +22,7 @@ public class Wheel extends Circle {
     }
 
     public Wheel() {
+        super(0,0,100);
         numSpokes = 6;
     }
 
@@ -29,6 +30,10 @@ public class Wheel extends Circle {
     public void draw(Pen p) {
         super.draw(p);
         drawSpokes(p);
+    }
+    
+    public void setSpokes (int s){
+        numSpokes = s;
     }
     
     private void drawSpokes(Pen p){

@@ -14,9 +14,9 @@ package Projects.shapes;
 import TurtleGraphics.Pen;
 
 public class Circle extends Shape {
-
+    
     private double radius;
-
+    
     public Circle() {
         this(0, 0, 1);
     }

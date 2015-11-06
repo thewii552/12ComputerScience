@@ -31,17 +31,8 @@ public class Triangle extends Shape {
 
     @Override
     public double getArea() {
-        /*Area = base* height*0.5
-         Find max and min x value for base, max and min y value for height
-         */
-        //Calculate the base
-        double base = Math.max(xPos, Math.max(xPos2, xPos3)) - Math.min(xPos, Math.max(xPos2, xPos3));
-
-        //Calculate the height
-        double height = Math.max(yPos, Math.max(yPos2, yPos3)) - Math.min(yPos, Math.max(yPos2, yPos3));
-
-        //Return the area
-        return base * height * 0.5;
+        
+        return Math.abs(((xPos*yPos2-xPos2*yPos)+(xPos2*yPos3-xPos3*yPos2)+xPos3*yPos-xPos*yPos3));
     }
 
     @Override
@@ -112,7 +103,7 @@ public class Triangle extends Shape {
                 "(" + xPos3 + ", " + yPos3 + "), " + 
                 "\n";
         
-        str += "Area: " + Math.round(getArea()) + "pixels\n";
+        str += "Area: " + Math.round(getArea()) + " pixels\n";
         return str;
     }
 

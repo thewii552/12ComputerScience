@@ -18,33 +18,15 @@ import java.awt.Color;
 public class Drawing {
 
     public static SketchPadWindow win = new SketchPadWindow(800, 800);
-    public static Pen p = new StandardPen(win);
-    public static Shape s = new Circle(0, 0, 100);
+    public static Pen p = new WiggleRainbowPen(win);
+    public static Shape s = new Wheel();
     public static void main(String args[]) {
+        s.stretchBy(3);
+       p.setWidth(100);
+        s.draw(p);
         
-        p.down();
-        s.draw(p);
-        s.stretchBy(2);
-        s.draw(p);
-        s.stretchBy(0.5);
-        p.setColor(Color.yellow);
-        s.draw(p);
-        System.out.println(s);
-        p.setColor(Color.BLACK);
-        s= new Rectangle(100, 100, 200, 180);
-        s.draw(p);
-        System.out.println(s);
-        s= new Wheel(-100,100,100,24);
-        s.draw(p);
-        s=  new Triangle();
-        s.draw(p);
-        System.out.println(s);
         
-        s.move (-100,178);
-        s.draw(p);
-        p.setColor(Color.GREEN);
-        s.stretchBy(2);
-        s.draw(p);
+        
         
     }
 
