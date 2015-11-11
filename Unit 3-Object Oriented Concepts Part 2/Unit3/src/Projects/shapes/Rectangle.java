@@ -59,7 +59,7 @@ public class Rectangle extends Shape {
     public String toString() {
         String str = "RECTANGLE\n";
         str+= "W x H: "+width+" x "+height+"\n";
-        str+="Location: ("+xPos+", "+yPos+")\n";
+        str+=super.toString();
         str+= "Area: "+Math.round(getArea())+" pixels\n";
         return str;
     }

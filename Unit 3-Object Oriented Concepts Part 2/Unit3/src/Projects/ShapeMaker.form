@@ -78,7 +78,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Component id="btnTriangle" max="32767" attributes="0"/>
-                      <Component id="btnSquare" max="32767" attributes="0"/>
+                      <Component id="btnRect" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
@@ -90,7 +90,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="btnCircle" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="btnSquare" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnRect" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
@@ -107,21 +107,33 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Circle"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCircleActionPerformed"/>
+          </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="btnSquare">
+        <Component class="javax.swing.JButton" name="btnRect">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Square"/>
+            <Property name="text" type="java.lang.String" value="Rectangle"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRectActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnTriangle">
           <Properties>
             <Property name="text" type="java.lang.String" value="Triangle"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnTriangleActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnWheel">
           <Properties>
             <Property name="text" type="java.lang.String" value="Wheel"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnWheelActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -140,8 +152,13 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="btnMove" alignment="0" max="32767" attributes="0"/>
-                      <Component id="btnResize" alignment="0" pref="71" max="32767" attributes="0"/>
+                      <Component id="btnMove" alignment="0" pref="71" max="32767" attributes="0"/>
+                      <Component id="btnResize" alignment="0" max="32767" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                      <Component id="btnColour" alignment="0" max="32767" attributes="0"/>
+                      <Component id="btnQuit" alignment="0" min="-2" pref="71" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
@@ -151,9 +168,18 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="btnMove" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="btnResize" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="1" attributes="0">
+                      <Group type="102" attributes="0">
+                          <Component id="btnColour" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="btnQuit" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" attributes="0">
+                          <Component id="btnMove" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="btnResize" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -164,11 +190,33 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Move"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnMoveActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnResize">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Resize"/>
+            <Property name="text" type="java.lang.String" value="Scale"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnResizeActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnColour">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Colour"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnColourActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnQuit">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Quit"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnQuitActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

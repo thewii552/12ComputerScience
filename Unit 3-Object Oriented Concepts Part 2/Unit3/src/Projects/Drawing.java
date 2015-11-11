@@ -13,21 +13,52 @@ package Projects;
 import Projects.shapes.*;
 
 import TurtleGraphics.*;
-import java.awt.Color;
 
 public class Drawing {
 
     public static SketchPadWindow win = new SketchPadWindow(800, 800);
-    public static Pen p = new WiggleRainbowPen(win);
-    public static Shape s = new Wheel();
+    public static Pen p = new StandardPen(win);
+    public static Shape s = new Circle();
     public static void main(String args[]) {
         s.stretchBy(3);
-       p.setWidth(100);
+      // p.setWidth(100);
         s.draw(p);
         
+        //Make a rectangle from the circle
+        s = makeShape("rectangle",s);
+        s.draw(p);
+        
+     
+        
+        Shape w = makeShape("triangle",s);
+        w.draw(p);
         
         
         
+    }
+    
+    public static Shape makeShape (String type, Shape s){
+        Shape returnShape;
+        double x = s.getXPos();
+        double y = s.getYPos();
+        
+        //Detrmine return type
+        switch (type) {
+            case "circle":
+                returnShape = new Circle(x,y,50);
+                break;
+            case "wheel":
+                returnShape = new Wheel(x,y,50,8);
+                break;
+            case "triangle":
+                returnShape = new Triangle(x,y);
+                break;            
+            default:
+                returnShape = new Rectangle(x, y, 100, 150);
+                break;
+        }
+            
+        return returnShape;
     }
 
 }

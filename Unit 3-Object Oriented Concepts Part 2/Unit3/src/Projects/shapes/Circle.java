@@ -18,7 +18,7 @@ public class Circle extends Shape {
     private double radius;
     
     public Circle() {
-        this(0, 0, 1);
+        this(0, 0, 50);
     }
 
     public Circle(double x, double y, double r) {
@@ -36,9 +36,7 @@ public class Circle extends Shape {
     public void draw(Pen p) {
         //Move the pen to it's location
         p.up();
-        p.move(xPos, yPos);
-        p.setDirection(270);
-        p.move(radius);
+        p.move(xPos, yPos-radius);
         p.setDirection(0);
         p.down();
         //Calculate the step size
@@ -65,7 +63,7 @@ public class Circle extends Shape {
     public String toString() {
         String str = "CIRCLE\n";
         str+= "Radius: "+radius+"\n";
-        str+="Location: ("+xPos+", "+yPos+")\n";
+        str+=super.toString();                
         str+= "Area: "+Math.round(getArea())+"pixels\n";
         return str;
     }

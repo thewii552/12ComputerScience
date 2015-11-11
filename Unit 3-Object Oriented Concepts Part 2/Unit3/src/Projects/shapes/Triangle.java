@@ -25,6 +25,10 @@ public class Triangle extends Shape {
         yPos3 = y3;
     }
     
+    public Triangle(double x, double y){
+        this (x,y,x-50,y-50,x+50,y-50);
+    }
+    
     public Triangle(){
         this (0,0,100,0,50,100);
     }
