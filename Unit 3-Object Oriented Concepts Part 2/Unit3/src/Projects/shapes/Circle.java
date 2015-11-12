@@ -53,6 +53,11 @@ public class Circle extends Shape {
     public double getRadius(){
         return radius;
     }
+    
+    @Override
+    public double getPerimiter(){
+        return Math.PI*radius*2;
+    }
 
     @Override
     public void stretchBy(double factor) {
@@ -64,7 +69,8 @@ public class Circle extends Shape {
         String str = "CIRCLE\n";
         str+= "Radius: "+radius+"\n";
         str+=super.toString();                
-        str+= "Area: "+Math.round(getArea())+"pixels\n";
+        str+= "Area: "+Math.round(getArea())+" pixels\n";
+        str += "Circumference: "+Math.round(getPerimiter())+" pixels";
         return str;
     }
 

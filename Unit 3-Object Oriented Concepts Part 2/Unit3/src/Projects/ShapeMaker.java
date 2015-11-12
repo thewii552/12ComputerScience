@@ -210,21 +210,15 @@ public class ShapeMaker extends javax.swing.JFrame {
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCircleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCircleActionPerformed
-        //Erase previous shape
-        s.erase(p);
-        //Set the shape to the user desired color
-        p.setColor(col);
-        //Drwa the shape
-        s = makeShape("circle",s);
-        s.draw(p);
+        update ("circle");
         
     }//GEN-LAST:event_btnCircleActionPerformed
 
@@ -240,40 +234,62 @@ public class ShapeMaker extends javax.swing.JFrame {
     }//GEN-LAST:event_btnQuitActionPerformed
 
     private void btnRectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRectActionPerformed
-        s.erase(p);
-        p.setColor(col);
-        s = makeShape("rect", s);
-        s.draw(p);
+        update("rect");
     }//GEN-LAST:event_btnRectActionPerformed
 
     private void btnWheelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnWheelActionPerformed
-        s.erase(p);
-        p.setColor(col);
-        s = makeShape("wheel", s);
-        s.draw(p);
+     update("wheel");
     }//GEN-LAST:event_btnWheelActionPerformed
 
     private void btnTriangleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTriangleActionPerformed
-        s.erase(p);
-        p.setColor(col);
-        s = makeShape("triangle", s);
-        s.draw(p);
+        update("triangle");
     }//GEN-LAST:event_btnTriangleActionPerformed
 
     private void btnResizeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResizeActionPerformed
      
     double factor = Double.parseDouble(JOptionPane.showInputDialog("Enter Stretch Factor"));
-    s.erase(p);
-    p.setColor(col);
-    s.stretchBy(factor);
-    s.draw(p);
+    //Show the image
+        s.erase(p);
+        p.setColor(col);
+        s.stretchBy(factor);
+        s.draw(p);
+        
+        //Show the text
+        txtOut.setText(s.toString());
+    
+    
     }//GEN-LAST:event_btnResizeActionPerformed
 
     private void btnMoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMoveActionPerformed
-    s.move(Double.parseDouble(JOptionPane.showInputDialog("Enter X Value")),Double.parseDouble(JOptionPane.showInputDialog("Enter Y Value")));
+        
+        double newX = Double.parseDouble(JOptionPane.showInputDialog("Enter X Value"));
+        double newY = Double.parseDouble(JOptionPane.showInputDialog("Enter Y Value"));
+        s.erase(p);
+        s.move(newX, newY);
+        
+        update();
     }//GEN-LAST:event_btnMoveActionPerformed
 
-    public Shape makeShape (String type, Shape s){
+    private void update(String type){
+        //Show the image
+        s.erase(p);
+        p.setColor(col);
+        s = makeShape(type, s);
+        s.draw(p);
+        
+        //Show the text
+        txtOut.setText(s.toString());
+    }
+    private void update(){
+        //Show the image
+        s.erase(p);
+        p.setColor(col);
+        s.draw(p);
+        
+        //Show the text
+        txtOut.setText(s.toString());
+    }
+    private Shape makeShape (String type, Shape s){
         Shape returnShape;
         double x = s.getXPos();
         double y = s.getYPos();

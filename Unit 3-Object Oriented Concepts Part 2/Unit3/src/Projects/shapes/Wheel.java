@@ -64,8 +64,9 @@ public class Wheel extends Circle {
     public String toString() {
         String str = "WHEEL\n";
         str+= "Radius: "+super.getRadius()+"\n";
-        str+=super.toString();
-        str+= "Area: "+Math.round(getArea())+"pixels\n";
+        str += "Location: ("+xPos+", "+yPos+")\n";
+        str+= "Area: "+Math.round(getArea())+" pixels\n";
+        str += "Circimference: "+ Math.round(getPerimiter())+" pixels\n";
         str += "Number of spokes: "+numSpokes+"\n";
         return str;
     }

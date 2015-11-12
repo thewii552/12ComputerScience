@@ -56,11 +56,18 @@ public class Rectangle extends Shape {
     }
     
     @Override
+    public double getPerimiter(){
+        return 2*height + 2*width;
+    }
+    
+    @Override
     public String toString() {
         String str = "RECTANGLE\n";
         str+= "W x H: "+width+" x "+height+"\n";
         str+=super.toString();
         str+= "Area: "+Math.round(getArea())+" pixels\n";
+        str += "Perimiter: "+getPerimiter();
+                
         return str;
     }
 

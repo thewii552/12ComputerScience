@@ -35,7 +35,6 @@ public class Triangle extends Shape {
 
     @Override
     public double getArea() {
-        
         return Math.abs(((xPos*yPos2-xPos2*yPos)+(xPos2*yPos3-xPos3*yPos2)+xPos3*yPos-xPos*yPos3));
     }
 
@@ -97,6 +96,15 @@ public class Triangle extends Shape {
         xPos3 = x3;
         yPos3 = y3;
     }
+    
+    @Override
+    public double getPerimiter(){
+        double perim=0;
+        perim += Math.sqrt((xPos2-xPos)*(xPos2-xPos)+(yPos2 - yPos)*(yPos2 - yPos));
+        perim += Math.sqrt((xPos3-xPos2)*(xPos3-xPos2)+(yPos3 - yPos2)*(yPos3 - yPos2));
+        perim += Math.sqrt((xPos-xPos3)*(xPos-xPos3)+(yPos - yPos3)*(yPos - yPos3));
+        return perim;
+    }
 
     @Override
     public String toString() {
@@ -104,10 +112,11 @@ public class Triangle extends Shape {
         
         str += "Points: (" + xPos + ", " + yPos + "), " + 
                 "(" + xPos2 + ", " + yPos2 + "), " + 
-                "(" + xPos3 + ", " + yPos3 + "), " + 
+                "(" + xPos3 + ", " + yPos3 + ")" + 
                 "\n";
         
         str += "Area: " + Math.round(getArea()) + " pixels\n";
+        str += "Perimiter: "+ Math.round(getPerimiter())+" pixels";
         return str;
     }
 

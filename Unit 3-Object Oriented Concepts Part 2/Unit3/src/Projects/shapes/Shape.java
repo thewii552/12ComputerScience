@@ -46,6 +46,7 @@ public abstract class Shape {
      * @param factor Specify scale factor
      */
     public abstract void stretchBy(double factor);
+    public abstract double getPerimiter();
     
     @Override
     public String toString(){
