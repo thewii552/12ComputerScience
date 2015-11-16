@@ -8,7 +8,7 @@
  |__|__||__|__||_____||__|\_||_____| \_/\_/      |_____||____|  |__|  
                                                                     
  */
-package Projects.shapes;
+package ShpMaker.shapes;
 
 import TurtleGraphics.Pen;
 

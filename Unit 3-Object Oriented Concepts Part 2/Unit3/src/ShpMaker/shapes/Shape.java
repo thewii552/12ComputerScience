@@ -1,4 +1,4 @@
-package Projects.shapes;
+package ShpMaker.shapes;
 
 import TurtleGraphics.Pen;
 import java.awt.Color;

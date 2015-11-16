@@ -4,12 +4,12 @@
  * and open the template in the editor.
  */
 
-package Projects;
+package ShpMaker;
 
+import ShpMaker.shapes.*;
 import TurtleGraphics.Pen;
 import TurtleGraphics.SketchPadWindow;
 import TurtleGraphics.StandardPen;
-import Projects.shapes.*;
 import java.awt.Color;
 import javax.swing.JColorChooser;
 import javax.swing.JOptionPane;

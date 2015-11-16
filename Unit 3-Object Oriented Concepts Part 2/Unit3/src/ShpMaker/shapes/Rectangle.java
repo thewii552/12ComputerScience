@@ -8,69 +8,66 @@
  |__|__||__|__||_____||__|\_||_____| \_/\_/      |_____||____|  |__|  
                                                                     
  */
-package Projects.shapes;
-
+package ShpMaker.shapes;
 
 import TurtleGraphics.Pen;
 
-public class Circle extends Shape {
-    
-    private double radius;
-    
-    public Circle() {
-        this(0, 0, 50);
+public class Rectangle extends Shape {
+
+    private double width, height;
+
+    public Rectangle() {
+        this(0, 0, 1, 1);
     }
 
-    public Circle(double x, double y, double r) {
+    public Rectangle(double x, double y, double w, double h) {
         xPos = x;
         yPos = y;
-        radius = r;
+        width = w;
+        height = h;
     }
 
     @Override
     public double getArea() {
-        return Math.PI * radius * radius;
+        return width * height;
     }
 
     @Override
     public void draw(Pen p) {
-        //Move the pen to it's location
         p.up();
-        p.move(xPos, yPos-radius);
+        p.move(xPos, yPos);
         p.setDirection(0);
         p.down();
-        //Calculate the step size
-        double stepSize = (Math.PI*radius*2)/360;
-        //Draw the circle
-        for (int x = 0; x < 360; x ++){
-            p.move (stepSize);
-            p.turn(1);
-        }
-    }
-
-    
-    
-    public double getRadius(){
-        return radius;
-    }
-    
-    @Override
-    public double getPerimiter(){
-        return Math.PI*radius*2;
+        p.move(width);
+        p.turn(-90);
+        p.move(height);
+        p.turn(-90);
+        p.move(width);
+        p.turn(-90);
+        p.move(height);
+        
+        
     }
 
     @Override
     public void stretchBy(double factor) {
-        radius *= factor;
+        width *= factor;
+        height *= factor;
     }
-
+    
+    @Override
+    public double getPerimiter(){
+        return 2*height + 2*width;
+    }
+    
     @Override
     public String toString() {
-        String str = "CIRCLE\n";
-        str+= "Radius: "+radius+"\n";
-        str+=super.toString();                
+        String str = "RECTANGLE\n";
+        str+= "W x H: "+width+" x "+height+"\n";
+        str+=super.toString();
         str+= "Area: "+Math.round(getArea())+" pixels\n";
-        str += "Circumference: "+Math.round(getPerimiter())+" pixels";
+        str += "Perimiter: "+getPerimiter();
+                
         return str;
     }
 
