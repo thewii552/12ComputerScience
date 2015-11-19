@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package ShpMaker;
 
 import ShpMaker.shapes.*;
@@ -11,6 +10,7 @@ import TurtleGraphics.Pen;
 import TurtleGraphics.SketchPadWindow;
 import TurtleGraphics.StandardPen;
 import java.awt.Color;
+import java.awt.HeadlessException;
 import javax.swing.JColorChooser;
 import javax.swing.JOptionPane;
 
@@ -27,12 +27,13 @@ public class ShapeMaker extends javax.swing.JFrame {
     public static Pen p = new StandardPen(win);
     Shape s = new Circle();
     Color col = Color.BLACK;
+
     public ShapeMaker() {
-        
+
         initComponents();
         this.setLocation(100, 100);
         win.setLocation(100, 380);
-        
+
     }
 
     /**
@@ -218,8 +219,8 @@ public class ShapeMaker extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCircleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCircleActionPerformed
-        update ("circle");
-        
+        update("circle");
+
     }//GEN-LAST:event_btnCircleActionPerformed
 
     private void btnColourActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnColourActionPerformed
@@ -230,7 +231,7 @@ public class ShapeMaker extends javax.swing.JFrame {
     }//GEN-LAST:event_btnColourActionPerformed
 
     private void btnQuitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuitActionPerformed
-      System.exit(0);
+        System.exit(0);
     }//GEN-LAST:event_btnQuitActionPerformed
 
     private void btnRectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRectActionPerformed
@@ -238,7 +239,23 @@ public class ShapeMaker extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRectActionPerformed
 
     private void btnWheelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnWheelActionPerformed
-     update("wheel");
+        int numSpokes;
+        try {
+            numSpokes = Integer.parseInt(JOptionPane.showInputDialog("Enter number of spokes"));
+            if (numSpokes <= 0 ) throw new NumberFormatException();
+            s.erase(p);
+            s = makeShape ("wheel",s);
+            ((Wheel) s).setSpokes(numSpokes);
+            p.setColor(col);
+            s.draw(p);
+
+        } catch (HeadlessException | NumberFormatException e) {
+            JOptionPane.showMessageDialog(this,
+                    "Please enter a number which is greater than zero",
+                    "Error!",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+
     }//GEN-LAST:event_btnWheelActionPerformed
 
     private void btnTriangleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTriangleActionPerformed
@@ -246,72 +263,86 @@ public class ShapeMaker extends javax.swing.JFrame {
     }//GEN-LAST:event_btnTriangleActionPerformed
 
     private void btnResizeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResizeActionPerformed
-     
-    double factor = Double.parseDouble(JOptionPane.showInputDialog("Enter Stretch Factor"));
-    //Show the image
+
+        double factor = 1;
+
+        try {
+            factor = Double.parseDouble(JOptionPane.showInputDialog("Enter Stretch Factor"));
+        } catch (java.lang.NumberFormatException e) {
+            JOptionPane.showMessageDialog(rootPane, "Please enter numbers only"
+                    + "");
+        }
+        //Show the image
         s.erase(p);
         p.setColor(col);
         s.stretchBy(factor);
         s.draw(p);
-        
+
         //Show the text
         txtOut.setText(s.toString());
-    
-    
+
+
     }//GEN-LAST:event_btnResizeActionPerformed
 
     private void btnMoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMoveActionPerformed
-        
-        double newX = Double.parseDouble(JOptionPane.showInputDialog("Enter X Value"));
-        double newY = Double.parseDouble(JOptionPane.showInputDialog("Enter Y Value"));
+        double newX = 0, newY = 0;
+        try {
+            newX = Double.parseDouble(JOptionPane.showInputDialog("Enter X Value"));
+            newY = Double.parseDouble(JOptionPane.showInputDialog("Enter Y Value"));
+        } catch (java.lang.NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Please enter numbers only");
+        }
         s.erase(p);
         s.move(newX, newY);
-        
+
         update();
     }//GEN-LAST:event_btnMoveActionPerformed
 
-    private void update(String type){
+    private void update(String type) {
         //Show the image
         s.erase(p);
         p.setColor(col);
         s = makeShape(type, s);
         s.draw(p);
-        
+
         //Show the text
         txtOut.setText(s.toString());
     }
-    private void update(){
+
+    private void update() {
         //Show the image
         s.erase(p);
         p.setColor(col);
         s.draw(p);
-        
+
         //Show the text
         txtOut.setText(s.toString());
     }
-    private Shape makeShape (String type, Shape s){
+
+    private Shape makeShape(String type, Shape s) {
         Shape returnShape;
         double x = s.getXPos();
         double y = s.getYPos();
-        
+
         //Detrmine return type
         switch (type) {
             case "circle":
-                returnShape = new Circle(x,y,50);
+                returnShape = new Circle(x, y, 50);
                 break;
             case "wheel":
-                returnShape = new Wheel(x,y,50,8);
+                returnShape = new Wheel(x, y, 50, 8);
                 break;
             case "triangle":
-                returnShape = new Triangle(x,y);
-                break;            
+                returnShape = new Triangle(x, y);
+                break;
             default:
                 returnShape = new Rectangle(x, y, 100, 150);
                 break;
         }
-            
+
         return returnShape;
     }
+
     /**
      * @param args the command line arguments
      */
