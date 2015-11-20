@@ -40,7 +40,7 @@ public abstract class Employee {
     
 
     public final boolean setHours(double h) {
-        boolean hoursOK = h >= 6.25 && h <= 60;
+        boolean hoursOK = h >= 1 && h <= 60;
         if (hoursOK) {
             hours = h;
             return true;

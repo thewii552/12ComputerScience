@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Emp2;
 
+import Emp2.employees.*;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -17,16 +18,17 @@ public class EmployeeGUI extends javax.swing.JFrame {
     /**
      * Creates new form EmployeeGUI
      */
-    DefaultTableModel dtm = new DefaultTableModel(0,0);
-    
+    DefaultTableModel dtm = new DefaultTableModel(0, 0);
+    int numEmployees = 0;
+    Employee employees[] = new Employee[0];
+
     public EmployeeGUI() {
         initComponents();
-        
+
         String headers[] = {"Name", "Pay"};
         dtm.setColumnIdentifiers(headers);
         tblPay.setModel(dtm);
-        
-        
+
     }
 
     /**
@@ -78,7 +80,6 @@ public class EmployeeGUI extends javax.swing.JFrame {
         rdoFull.setText("Full Time");
 
         buttonGroup1.add(rdoPart);
-        rdoPart.setSelected(true);
         rdoPart.setText("Part Time");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -130,6 +131,11 @@ public class EmployeeGUI extends javax.swing.JFrame {
         rdoPart.getAccessibleContext().setAccessibleName("PartTime");
 
         btnAdd.setText("Add");
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
 
         btnQuit.setText("Quit");
         btnQuit.addActionListener(new java.awt.event.ActionListener() {
@@ -206,6 +212,80 @@ public class EmployeeGUI extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_btnQuitActionPerformed
 
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        //Get all of the info
+        Employee temp;
+        //Part time or full time?
+        if (rdoPart.isSelected()) {
+            //Part time empoyee
+            temp = new PartEmployee();
+        } else if (rdoFull.isSelected()) {
+            //Full time
+            temp = new FullEmployee();
+        } else{
+            JOptionPane.showMessageDialog(this, "Please select an employee type");
+            return;
+        }
+        //Store all the values into temp variables
+        String nameTemp;
+        Double hrsTemp;
+        double rateTemp;
+        try {
+            nameTemp = txtName.getText();
+            hrsTemp = (double) spnHrs.getValue();
+            rateTemp = (double) spnRate.getValue();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Please fill all fields correctly");
+            return;
+        }
+        //Put all the values into the temp employee
+        boolean isError = false;
+        String error = "";
+
+        if (!temp.setName(nameTemp)) {
+            error += Employee.getNameRules();
+            isError = true;
+        }
+        if (!temp.setHours(hrsTemp)) {
+            //Add the error message
+            error += Employee.getHourRules();
+            isError = true;
+        }
+
+        if (!temp.setRate(rateTemp)) {
+            error += Employee.getRateRules();
+            isError = true;
+        }
+        if (isError){
+            //Show the error message
+            JOptionPane.showMessageDialog(this, "Error!\n"+error);
+            //Get outta' here!
+            return;
+        }
+        
+        //Store the current array
+        Employee tempArray[] = employees;
+        numEmployees++;
+        Employee employees[] = new Employee[numEmployees];
+        for (int x = 0; x < tempArray.length;x++){
+            System.out.println(employees.length);
+            System.out.println(tempArray.length);
+            employees[x] = tempArray[x];
+        }
+        
+        employees[numEmployees-1] = temp;
+        
+        //Store the info to add to the table
+        String info[] = {temp.getName(), Double.toString(temp.getPay())};
+        temp.addPay();
+        //Update the table
+        //Add a row
+        
+        dtm.addRow(info);
+
+    }//GEN-LAST:event_btnAddActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -233,7 +313,7 @@ public class EmployeeGUI extends javax.swing.JFrame {
         }
         //</editor-fold>
 
-         /*Create and display the form */
+        /*Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new EmployeeGUI().setVisible(true);
