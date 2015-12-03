@@ -103,7 +103,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="btnExchange">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Exchange Sort"/>
+        <Property name="text" type="java.lang.String" value="Selection Sort"/>
         <Property name="enabled" type="boolean" value="false"/>
       </Properties>
       <Events>
@@ -124,6 +124,9 @@
         <Property name="text" type="java.lang.String" value="Quick Sort"/>
         <Property name="enabled" type="boolean" value="false"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnQuickActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="lblTime">
       <Properties>

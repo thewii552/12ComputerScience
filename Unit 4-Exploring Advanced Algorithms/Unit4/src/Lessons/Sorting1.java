@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Projects;
+package Lessons;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
@@ -60,7 +60,7 @@ public class Sorting1 extends javax.swing.JFrame {
             }
         });
 
-        btnExchange.setText("Exchange Sort");
+        btnExchange.setText("Selection Sort");
         btnExchange.setEnabled(false);
         btnExchange.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -78,6 +78,11 @@ public class Sorting1 extends javax.swing.JFrame {
 
         btnQuick.setText("Quick Sort");
         btnQuick.setEnabled(false);
+        btnQuick.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnQuickActionPerformed(evt);
+            }
+        });
 
         lblTime.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lblTime.setText("Time: ");
@@ -190,6 +195,23 @@ public class Sorting1 extends javax.swing.JFrame {
         lblTime.setText("Time: "+time+" ms");
         changeButtons(false);
     }//GEN-LAST:event_btnInsertionActionPerformed
+
+    private void btnQuickActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuickActionPerformed
+        //Sort
+        long time = System.currentTimeMillis();
+        quickSort(numbers, 0, numbers.length-1);
+        time = System.currentTimeMillis()-time;
+        
+        list.clear();
+        
+        for (int num:numbers){
+            list.addElement(num);
+        }
+        
+        //Display the time
+        lblTime.setText("Time: "+time+" ms");
+        changeButtons(false);
+    }//GEN-LAST:event_btnQuickActionPerformed
 
     /**
      * @param args the command line arguments
@@ -324,7 +346,37 @@ public static void insertionSort(int a[]){
 		}//end while
   	}//end for
 }//end method
-    
+ 
+int partition(int arr[], int left, int right)
+{
+      int i = left, j = right;
+      int tmp;
+      int pivot = arr[(left + right) / 2];
+     
+      while (i <= j) {
+            while (arr[i] < pivot)
+                  i++;
+            while (arr[j] > pivot)
+                  j--;
+            if (i <= j) {
+                  tmp = arr[i];
+                  arr[i] = arr[j];
+                  arr[j] = tmp;
+                  i++;
+                  j--;
+            }
+      };
+     
+      return i;
+}
+ 
+void quickSort(int arr[], int left, int right) {
+      int index = partition(arr, left, right);
+      if (left < index - 1)
+            quickSort(arr, left, index - 1);
+      if (index < right)
+            quickSort(arr, index, right);
+}
     
     
 }
