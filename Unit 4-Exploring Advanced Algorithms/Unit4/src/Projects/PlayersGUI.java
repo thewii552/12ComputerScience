@@ -10,6 +10,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
+import javax.swing.DefaultListModel;
 
 /**
  *
@@ -17,13 +18,16 @@ import java.util.StringTokenizer;
  */
 public class PlayersGUI extends javax.swing.JFrame {
 
-    ArrayList players = new ArrayList<>();
+    ArrayList<Player> players = new ArrayList();
+    DefaultListModel model = new DefaultListModel();
 
     /**
      * Creates new form PlayersGUI
      */
     public PlayersGUI() {
         initComponents();
+        //Set up the list with the model
+        lstPlayers.setModel(model);
         //Load the data
         try {
             FileReader fr = new FileReader("./data/nhlplayers.txt");
@@ -40,7 +44,8 @@ public class PlayersGUI extends javax.swing.JFrame {
                 String s = st.nextToken();
                 String w = st.nextToken();
                 //Make the player
-                players.add(new Player(n,t,p,Double.parseDouble(s),Double.parseDouble(w)));
+                players.add(new Player(n, t, p, Double.parseDouble(s), Double.parseDouble(w)));
+                model.addElement(n.replace("-", ", "));
             }
         } catch (IOException e) {
             System.out.println(e);
@@ -52,16 +57,41 @@ public class PlayersGUI extends javax.swing.JFrame {
     private void initComponents() {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        lstPlayers = new javax.swing.JList();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        txtOut = new javax.swing.JTextArea();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
-        jMenu3 = new javax.swing.JMenu();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        jMenu1 = new javax.swing.JMenu();
-        jRadioButtonMenuItem1 = new javax.swing.JRadioButtonMenuItem();
-        jRadioButtonMenuItem2 = new javax.swing.JRadioButtonMenuItem();
+        mnuEdit = new javax.swing.JMenu();
+        itmDelete = new javax.swing.JMenuItem();
+        mnuFilter = new javax.swing.JMenu();
+        optTeam = new javax.swing.JRadioButtonMenuItem();
+        optAll = new javax.swing.JRadioButtonMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        lstPlayers.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public Object getElementAt(int i) { return strings[i]; }
+        });
+        lstPlayers.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lstPlayersMouseClicked(evt);
+            }
+        });
+        lstPlayers.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                lstPlayersValueChanged(evt);
+            }
+        });
+        jScrollPane1.setViewportView(lstPlayers);
+
+        txtOut.setColumns(20);
+        txtOut.setRows(5);
+        jScrollPane2.setViewportView(txtOut);
 
         jMenu2.setText("File");
 
@@ -71,31 +101,43 @@ public class PlayersGUI extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu2);
 
-        jMenu3.setText("Edit");
+        mnuEdit.setText("Edit");
 
-        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_DELETE, 0));
-        jMenuItem2.setText("Delete");
-        jMenu3.add(jMenuItem2);
-
-        jMenuBar1.add(jMenu3);
-
-        jMenu1.setText("Filter...");
-
-        buttonGroup1.add(jRadioButtonMenuItem1);
-        jRadioButtonMenuItem1.setText("By Selected Team");
-        jRadioButtonMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        itmDelete.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_DELETE, 0));
+        itmDelete.setText("Delete");
+        itmDelete.setEnabled(false);
+        itmDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButtonMenuItem1ActionPerformed(evt);
+                itmDeleteActionPerformed(evt);
             }
         });
-        jMenu1.add(jRadioButtonMenuItem1);
+        mnuEdit.add(itmDelete);
 
-        buttonGroup1.add(jRadioButtonMenuItem2);
-        jRadioButtonMenuItem2.setSelected(true);
-        jRadioButtonMenuItem2.setText("Show All");
-        jMenu1.add(jRadioButtonMenuItem2);
+        jMenuBar1.add(mnuEdit);
 
-        jMenuBar1.add(jMenu1);
+        mnuFilter.setText("Filter...");
+
+        buttonGroup1.add(optTeam);
+        optTeam.setText("By Selected Team");
+        optTeam.setEnabled(false);
+        optTeam.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                optTeamActionPerformed(evt);
+            }
+        });
+        mnuFilter.add(optTeam);
+
+        buttonGroup1.add(optAll);
+        optAll.setSelected(true);
+        optAll.setText("Show All");
+        optAll.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                optAllActionPerformed(evt);
+            }
+        });
+        mnuFilter.add(optAll);
+
+        jMenuBar1.add(mnuFilter);
 
         setJMenuBar(jMenuBar1);
 
@@ -103,19 +145,75 @@ public class PlayersGUI extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 234, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 279, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jRadioButtonMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonMenuItem1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jRadioButtonMenuItem1ActionPerformed
+    private void optTeamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optTeamActionPerformed
+        //Get the selected player's team
+        int selected = lstPlayers.getSelectedIndex();
+        String team = players.get(selected).getTeam();
+        
+        //Clear the model, run through the arraylist, and add all players of the right team
+        model.clear();
+        for (Player p: players){
+            if (p.getTeam().equals(team)){
+                model.addElement(p.getName());
+            }
+        }
+    }//GEN-LAST:event_optTeamActionPerformed
+
+    private void lstPlayersValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_lstPlayersValueChanged
+
+    }//GEN-LAST:event_lstPlayersValueChanged
+
+    private void lstPlayersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lstPlayersMouseClicked
+        //Enable "delete" and "filter by team"
+        itmDelete.setEnabled(true);
+        optTeam.setEnabled(true);
+
+        //Select the player and display the info
+        int index = lstPlayers.getSelectedIndex();
+        txtOut.setText((players.get(index)).toString());
+    }//GEN-LAST:event_lstPlayersMouseClicked
+
+    private void itmDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmDeleteActionPerformed
+        //Delete the selected player
+        //Start by getting the index of the selected player
+        int selected = lstPlayers.getSelectedIndex();
+        //Now remove that player from the arraylist and the list model
+        model.removeElementAt(selected);
+        players.remove(selected);
+
+
+    }//GEN-LAST:event_itmDeleteActionPerformed
+
+    private void optAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optAllActionPerformed
+        //Run through the arrayList and add all players to the list 
+        model.clear();
+        for (Player p : players) {
+            model.addElement(p.getName());
+        }
+        //Disable delete and team
+        optTeam.setEnabled(false);
+        itmDelete.setEnabled(false);
+    }//GEN-LAST:event_optAllActionPerformed
 
     /**
      * @param args the command line arguments
@@ -154,13 +252,17 @@ public class PlayersGUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenuItem itmDelete;
     private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem1;
-    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JList lstPlayers;
+    private javax.swing.JMenu mnuEdit;
+    private javax.swing.JMenu mnuFilter;
+    private javax.swing.JRadioButtonMenuItem optAll;
+    private javax.swing.JRadioButtonMenuItem optTeam;
+    private javax.swing.JTextArea txtOut;
     // End of variables declaration//GEN-END:variables
 }

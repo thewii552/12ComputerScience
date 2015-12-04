@@ -19,7 +19,7 @@ public class Player implements Comparable {
     
 
     public Player(String n, String t, String p, double s, double w) {
-        name = n;
+        setName(n);
         team = t;
         position = p;
         salary = s;
@@ -32,12 +32,19 @@ public class Player implements Comparable {
     }
 
     public void setName(String n) {
-        name = n.replace("-", " ");
+        name = n.replace("-", ", ");
+    }
+    public String getTeam(){
+        return team;
     }
 
     @Override
     public String toString() {
-       
+        //Use a temp name which has the comma removed and the names switched around
+        int comma = name.indexOf(", ");
+        
+        String n = name.substring(comma+1)+" "+name.substring(0,comma);
+        
         String out= "Name: "+name;
         out +="\n============================";
         out +="\nTeam: "+team;
