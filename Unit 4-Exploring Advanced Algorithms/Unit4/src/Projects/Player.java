@@ -26,6 +26,9 @@ public class Player implements Comparable {
         weight = w;
 
     }
+    public Player(String n){
+        name = n;
+    }
 
     public String getName() {
         return name;

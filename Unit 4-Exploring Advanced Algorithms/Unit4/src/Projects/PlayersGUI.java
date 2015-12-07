@@ -26,30 +26,12 @@ public class PlayersGUI extends javax.swing.JFrame {
      */
     public PlayersGUI() {
         initComponents();
+        
+        //Load the players
+        load("./data/nhlplayers.txt");
         //Set up the list with the model
         lstPlayers.setModel(model);
-        //Load the data
-        try {
-            FileReader fr = new FileReader("./data/nhlplayers.txt");
-            BufferedReader buffer = new BufferedReader(fr);
-
-            while (buffer.ready()) {
-                //Load the string
-                String in = buffer.readLine();
-                //Parse the data
-                StringTokenizer st = new StringTokenizer(in, ",");
-                String n = st.nextToken();
-                String t = st.nextToken();
-                String p = st.nextToken();
-                String s = st.nextToken();
-                String w = st.nextToken();
-                //Make the player
-                players.add(new Player(n, t, p, Double.parseDouble(s), Double.parseDouble(w)));
-                model.addElement(n.replace("-", ", "));
-            }
-        } catch (IOException e) {
-            System.out.println(e);
-        }
+        
     }
 
     @SuppressWarnings("unchecked")
@@ -95,7 +77,7 @@ public class PlayersGUI extends javax.swing.JFrame {
 
         jMenu2.setText("File");
 
-        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.ALT_MASK));
+        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem1.setText("Exit");
         jMenu2.add(jMenuItem1);
 
@@ -117,6 +99,7 @@ public class PlayersGUI extends javax.swing.JFrame {
 
         mnuFilter.setText("Filter...");
 
+        optTeam.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_T, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         buttonGroup1.add(optTeam);
         optTeam.setText("By Selected Team");
         optTeam.setEnabled(false);
@@ -127,6 +110,7 @@ public class PlayersGUI extends javax.swing.JFrame {
         });
         mnuFilter.add(optTeam);
 
+        optAll.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         buttonGroup1.add(optAll);
         optAll.setSelected(true);
         optAll.setText("Show All");
@@ -165,6 +149,32 @@ public class PlayersGUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    
+    private void load(String fileAddress){
+        //Load the data
+        try {
+            FileReader fr = new FileReader(fileAddress);
+            BufferedReader buffer = new BufferedReader(fr);
+
+            while (buffer.ready()) {
+                //Load the string
+                String in = buffer.readLine();
+                //Parse the data
+                StringTokenizer st = new StringTokenizer(in, ",");
+                String n = st.nextToken();
+                String t = st.nextToken();
+                String p = st.nextToken();
+                String s = st.nextToken();
+                String w = st.nextToken();
+                //Make the player
+                players.add(new Player(n, t, p, Double.parseDouble(s), Double.parseDouble(w)));
+                model.addElement(n.replace("-", ", "));
+            }
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+        
+    }    
     private void optTeamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optTeamActionPerformed
         //Get the selected player's team
         int selected = lstPlayers.getSelectedIndex();
@@ -187,10 +197,14 @@ public class PlayersGUI extends javax.swing.JFrame {
         //Enable "delete" and "filter by team"
         itmDelete.setEnabled(true);
         optTeam.setEnabled(true);
+        
 
         //Select the player and display the info
         int index = lstPlayers.getSelectedIndex();
-        txtOut.setText((players.get(index)).toString());
+        //Find the player's info to show
+        index = search(players, new Player((String)model.get(index)));
+        txtOut.setText(players.get(index).toString());
+        
     }//GEN-LAST:event_lstPlayersMouseClicked
 
     private void itmDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmDeleteActionPerformed
@@ -215,6 +229,23 @@ public class PlayersGUI extends javax.swing.JFrame {
         itmDelete.setEnabled(false);
     }//GEN-LAST:event_optAllActionPerformed
 
+    
+    public static int search (ArrayList a, Player searchValue){
+	   int left = 0;
+	   int right = a.size()-1;
+	   while (left <= right){
+	      int midpoint = (left + right) / 2;
+	      int result = ((Comparable)a.get(midpoint)).compareTo(searchValue); 
+	      if (result == 0)
+	         return midpoint;
+	      else if (result < 0)
+	         left = midpoint + 1;
+	      else
+	         right = midpoint-1;
+	   }
+	   return -1;	
+		   
+}
     /**
      * @param args the command line arguments
      */
