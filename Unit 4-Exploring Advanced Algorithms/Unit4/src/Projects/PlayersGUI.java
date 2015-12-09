@@ -5,6 +5,7 @@
  */
 package Projects;
 
+import Projects.Player;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -45,7 +46,7 @@ public class PlayersGUI extends javax.swing.JFrame {
         txtOut = new javax.swing.JTextArea();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu2 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        itmQuit = new javax.swing.JMenuItem();
         mnuEdit = new javax.swing.JMenu();
         itmDelete = new javax.swing.JMenuItem();
         mnuFilter = new javax.swing.JMenu();
@@ -77,15 +78,22 @@ public class PlayersGUI extends javax.swing.JFrame {
 
         jMenu2.setText("File");
 
-        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem1.setText("Exit");
-        jMenu2.add(jMenuItem1);
+        itmQuit.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.ALT_MASK));
+        itmQuit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Projects/img/quit.png"))); // NOI18N
+        itmQuit.setText("Exit");
+        itmQuit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itmQuitActionPerformed(evt);
+            }
+        });
+        jMenu2.add(itmQuit);
 
         jMenuBar1.add(jMenu2);
 
         mnuEdit.setText("Edit");
 
         itmDelete.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_DELETE, 0));
+        itmDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Projects/img/gtk-quit.png"))); // NOI18N
         itmDelete.setText("Delete");
         itmDelete.setEnabled(false);
         itmDelete.addActionListener(new java.awt.event.ActionListener() {
@@ -99,10 +107,11 @@ public class PlayersGUI extends javax.swing.JFrame {
 
         mnuFilter.setText("Filter...");
 
-        optTeam.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_T, java.awt.event.InputEvent.CTRL_MASK));
+        optTeam.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_T, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         buttonGroup1.add(optTeam);
         optTeam.setText("By Selected Team");
         optTeam.setEnabled(false);
+        optTeam.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Projects/img/team.png"))); // NOI18N
         optTeam.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 optTeamActionPerformed(evt);
@@ -114,6 +123,7 @@ public class PlayersGUI extends javax.swing.JFrame {
         buttonGroup1.add(optAll);
         optAll.setSelected(true);
         optAll.setText("Show All");
+        optAll.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Projects/img/all.png"))); // NOI18N
         optAll.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 optAllActionPerformed(evt);
@@ -229,6 +239,10 @@ public class PlayersGUI extends javax.swing.JFrame {
         itmDelete.setEnabled(false);
     }//GEN-LAST:event_optAllActionPerformed
 
+    private void itmQuitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmQuitActionPerformed
+System.exit(0);
+    }//GEN-LAST:event_itmQuitActionPerformed
+
     
     public static int search (ArrayList a, Player searchValue){
 	   int left = 0;
@@ -284,9 +298,9 @@ public class PlayersGUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JMenuItem itmDelete;
+    private javax.swing.JMenuItem itmQuit;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JList lstPlayers;
