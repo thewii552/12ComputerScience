@@ -8,23 +8,23 @@
  |__|__||__|__||_____||__|\_||_____| \_/\_/      |_____||____|  |__|  
                                                                     
  */
-package Projects;
+package SortingThreaded.Sorter;
 
-import TerminalIO.*;
+public abstract class Sorter implements Runnable {
 
-public class FibonacciCalc {
+    static int[] nums;
 
-    public static void main(String args[]) {
-        System.out.println(fibonacci(5));
+    public Sorter(int[] n) {
+        nums = new int[n.length];
+        System.arraycopy(n, 0, nums, 0, n.length);
     }
 
-    public static long fibonacci(int n) {
-        if (n <= 2) {
-            return 1;
-        }
-        else {
-            return fibonacci(n-1)+fibonacci(n-2);
-        }
-    }
+    public abstract void sort(int[] a);
 
+    public int[] getArray(){
+        return nums;
+    }
+    
+    
+    public abstract void run();
 }

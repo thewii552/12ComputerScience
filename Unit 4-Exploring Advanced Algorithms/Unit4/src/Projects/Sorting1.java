@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Lessons;
+package Projects;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
@@ -148,7 +148,10 @@ public class Sorting1 extends javax.swing.JFrame {
 
     private void btnBubbleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBubbleActionPerformed
         //Bubble sort the array
+        
+        //Do it in it's own thread
         long time = System.currentTimeMillis();
+      
         bubbleSort(numbers);
         time = System.currentTimeMillis()-time;
         list.clear();
@@ -377,6 +380,8 @@ void quickSort(int arr[], int left, int right) {
       if (index < right)
             quickSort(arr, index, right);
 }
+
+    
     
     
 }
