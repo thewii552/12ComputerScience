@@ -26,7 +26,7 @@ public class Guest {
         //Convert information from data file into a guest
         int split = info.indexOf("<");
         name = info.substring(0,split);
-        email = info.substring(split=1, info.length()-1);
+        email = info.substring(split+1, info.length()-1);
     }
     
     @Override

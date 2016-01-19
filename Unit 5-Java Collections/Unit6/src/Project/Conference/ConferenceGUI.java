@@ -5,9 +5,16 @@
  */
 package Project.Conference;
 
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Iterator;
 import javax.swing.DefaultListModel;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -15,7 +22,7 @@ import javax.swing.DefaultListModel;
  */
 public class ConferenceGUI extends javax.swing.JFrame {
 
-    public Conference a, b, c, d;
+    public static Conference a, b, c, d;
     public HashMap<String, Conference> schedule;
     DefaultListModel list;
     Conference conf;
@@ -42,20 +49,21 @@ public class ConferenceGUI extends javax.swing.JFrame {
         schedule.put("Game", b);
         schedule.put("HTML", c);
         schedule.put("Java", d);
-        
+
         list = new DefaultListModel();
         lstPeople.setModel(list);
         update("Android");
     }
-    
-    public void update(String key){
+
+    public void update(String key) {
         list.clear();
-        conf=schedule.get(key);
+        conf = schedule.get(key);
         Iterator it = conf.getPeople().iterator();
-        while(it.hasNext()){
+        while (it.hasNext()) {
             list.addElement(it.next());
         }
-        lblTitle.setText("<html>"+conf.getDescription()+"</html>");
+        lblTitle.setText(conf.getName());
+        lblDescription.setText("<html>" + conf.getDescription() + "</html>");
         lblImage.setIcon(conf.getImage());
     }
 
@@ -68,9 +76,6 @@ public class ConferenceGUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        lblImage = new javax.swing.JLabel();
-        lblTitle = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         btnAndroid = new javax.swing.JButton();
         btnGaming = new javax.swing.JButton();
@@ -83,35 +88,10 @@ public class ConferenceGUI extends javax.swing.JFrame {
         lstPeople = new javax.swing.JList();
         jPanel4 = new javax.swing.JPanel();
         lblDescription = new javax.swing.JLabel();
+        lblTitle = new javax.swing.JLabel();
+        lblImage = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
-        lblImage.setText("     !!!!    ");
-
-        lblTitle.setText("This is the conference title");
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblImage)
-                    .addComponent(lblTitle))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lblImage)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(lblTitle)
-                .addContainerGap())
-        );
+        setResizable(false);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -123,10 +103,25 @@ public class ConferenceGUI extends javax.swing.JFrame {
         });
 
         btnGaming.setText("Gaming");
+        btnGaming.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGamingActionPerformed(evt);
+            }
+        });
 
         btnHTML.setText("HTML");
+        btnHTML.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHTMLActionPerformed(evt);
+            }
+        });
 
         btnJava.setText("Java");
+        btnJava.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnJavaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -162,8 +157,18 @@ public class ConferenceGUI extends javax.swing.JFrame {
         jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         btnRemove.setText("Remove");
+        btnRemove.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRemoveActionPerformed(evt);
+            }
+        });
 
         btnEnroll.setText("Enroll");
+        btnEnroll.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEnrollActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -195,6 +200,7 @@ public class ConferenceGUI extends javax.swing.JFrame {
 
         jPanel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
+        lblDescription.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lblDescription.setText("Description");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -211,8 +217,10 @@ public class ConferenceGUI extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(lblDescription)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
+
+        lblTitle.setText("This is the conference title");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -220,41 +228,102 @@ public class ConferenceGUI extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                        .addComponent(lblImage, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(lblTitle))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(lblTitle)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblImage))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAndroidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAndroidActionPerformed
-        // TODO add your handling code here:
+        update("Android");
     }//GEN-LAST:event_btnAndroidActionPerformed
+
+    private void btnGamingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGamingActionPerformed
+        update("Game");
+    }//GEN-LAST:event_btnGamingActionPerformed
+
+    private void btnHTMLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHTMLActionPerformed
+        update("HTML");
+    }//GEN-LAST:event_btnHTMLActionPerformed
+
+    private void btnJavaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnJavaActionPerformed
+        update("Java");
+    }//GEN-LAST:event_btnJavaActionPerformed
+
+    private void btnEnrollActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnrollActionPerformed
+        AddGuest form = new AddGuest(this, true);
+        form.setVisible(true);
+        if (form.getSignal()) {
+            Guest newGuest = form.getGuest();
+            if (conf.signUp(newGuest)) {
+                list.addElement(newGuest);
+            } else {
+                JOptionPane.showMessageDialog(this, "Guest already enrolled");
+            }
+
+        }
+    }//GEN-LAST:event_btnEnrollActionPerformed
+
+    private void btnRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveActionPerformed
+        int location = lstPeople.getSelectedIndex();
+        if (location == -1) {
+            return;
+        }
+        String info = list.getElementAt(location).toString();
+        Guest g = new Guest(info);
+
+        conf.remove(g);
+        list.removeElementAt(location);
+
+
+    }//GEN-LAST:event_btnRemoveActionPerformed
+
+    public static void saveExit() {
+        FileWriter fw;
+        try {
+            fw = new FileWriter("src/data/" + "data.conf");
+            PrintWriter p = new PrintWriter(fw);
+            a.save(p, "Android");
+            b.save(p, "Gaming");
+            c.save(p, "HTML");
+            d.save(p, "Java");
+            p.close();
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+        JOptionPane.showMessageDialog(null, "Conference Data Saved");
+
+    }
 
     /**
      * @param args the command line arguments
@@ -270,23 +339,36 @@ public class ConferenceGUI extends javax.swing.JFrame {
                 if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ConferenceGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ConferenceGUI.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ConferenceGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ConferenceGUI.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ConferenceGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ConferenceGUI.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ConferenceGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ConferenceGUI.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ConferenceGUI().setVisible(true);
+                ConferenceGUI frame = new ConferenceGUI();
+                frame.setVisible(true);
+                frame.addComponentListener(new ComponentAdapter() {
+                    @Override
+                    public void componentHidden(ComponentEvent e) {
+                        saveExit();
+                        ((JFrame) (e.getComponent())).dispose();
+                    }
+                });
             }
         });
     }
@@ -298,7 +380,6 @@ public class ConferenceGUI extends javax.swing.JFrame {
     private javax.swing.JButton btnHTML;
     private javax.swing.JButton btnJava;
     private javax.swing.JButton btnRemove;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;

@@ -110,6 +110,13 @@ public class AddGuest extends javax.swing.JDialog {
         signal = false;
         this.dispose();
     }//GEN-LAST:event_btnCancelActionPerformed
+    public boolean getSignal() {
+        return signal;
+    }
+
+    public Guest getGuest() {
+        return g;
+    }
 
     /**
      * @param args the command line arguments

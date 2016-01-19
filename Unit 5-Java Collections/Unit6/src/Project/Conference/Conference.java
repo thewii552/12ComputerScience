@@ -10,7 +10,9 @@
  */
 package Project.Conference;
 
+import java.io.PrintWriter;
 import java.util.HashSet;
+import java.util.Iterator;
 import javax.swing.ImageIcon;
 
 public class Conference {
@@ -23,8 +25,17 @@ public class Conference {
     public Conference(String n, String d, String img) {
         name = n;
         description = d;
-        image = new ImageIcon(getClass().getResource("src/Project/Conference/img/" + img));
+        image = new ImageIcon("src/Project/Conference/img/" + img);
+
         people = new HashSet();
+    }
+
+    public void save(PrintWriter pw, String key) {
+        Iterator it = people.iterator();
+        while (it.hasNext()) {
+            pw.println(key);
+            pw.println(it.next());
+        }
     }
 
     public boolean signUp(Guest g) {
