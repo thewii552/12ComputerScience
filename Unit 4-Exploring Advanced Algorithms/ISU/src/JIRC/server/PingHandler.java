@@ -10,26 +10,24 @@
  */
 package JIRC.server;
 
+import JIRC.core.ConnectionHandler;
+import JIRC.core.*;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashSet;
-import JIRC.core.*;
-import java.io.IOException;
+import java.util.concurrent.BlockingQueue;
 
-public class ConnectionHandler implements Runnable {
+public class PingHandler extends ConnectionHandler {
 
-    PrintWriter out;
-    BufferedReader in;
-    HashSet<User> users = new HashSet();
+    protected HashSet<User> users = new HashSet();
 
-    public ConnectionHandler(PrintWriter pw, BufferedReader i) {
-        out = pw;
-        in = i;
+    public PingHandler(PrintWriter pw, BufferedReader i, BlockingQueue bq) {
+        super(pw, i, bq);
     }
 
     @Override
     public void run() {
-        System.out.println("Hello from thread");
         while (true) {
             try {
                 //Ping everybody
@@ -42,16 +40,28 @@ public class ConnectionHandler implements Runnable {
 
     public void ping() throws InterruptedException, IOException {
         System.out.println("ping");
+        //Ping all the connected users
         out.println("SERV*Ping");
-        Thread.sleep(1000);
+        //Wait for responses with names
+        Thread.sleep(3000);
+        //Create a temporary list for connected users
         HashSet<User> temp = new HashSet();
+
         while (in.ready()) {
+            //Get the name of connected users
             String tempuser = in.readLine();
-            System.out.println(tempuser);
-            temp.add(new User(tempuser));
+            //Is it accidentially a message? Add it to the message queue
+            if (tempuser.contains("MSG*")) {
+                messageQueue.add(tempuser);
+            } else { //It's a person, add them to the list
+                System.out.println(tempuser);
+                temp.add(new User(tempuser));
+            }
         }
-        if (!users.toString().equals( temp.toString())) { //there's a change in the user list; update that!
+
+        if (!users.toString().equals(temp.toString())) { //there's a change in the user list; update that!
             users = temp;
+            //Push the update to all connected users
             sendList();
         }
     }

@@ -2,6 +2,7 @@ package Testing;
 
 import TerminalIO.KeyboardReader;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -17,7 +18,7 @@ import java.net.URL;
  |__|__||__|__||_____||__|\_||_____| \_/\_/      |_____||____|  |__|  
                                                                     
  */
-public class TestSend {
+public class TestClient {
 
     static URL testUrl;
 
@@ -34,14 +35,18 @@ public class TestSend {
                 if (in.ready()) {
                     String line = in.readLine();
                     System.out.println(line);
-                    if (line.equals("SERV*Ping")){
+                    if (line.equals("SERV*Ping")) {
                         out.println("Test");
                     }
-                    }
                 }
+                String testMessage = "MSG*";
+                testMessage += "Andrew**USR**";
+                testMessage += kb.readLine();
+                //Push the message
+                out.println(testMessage);
             }
 
-         catch (Exception e) {
+        } catch (IOException e) {
             System.out.println(e);
         }
     }
