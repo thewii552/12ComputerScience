@@ -21,19 +21,23 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class Server {
-
+    
+    //Variables needed for operation
     public static int portNumber = 25565;
     static ServerSocket serverSocket;
     static Socket clientSocket;
     static PrintWriter out;
     static BufferedReader in;
-
+    
+    //Queue to hold messages
     private static BlockingQueue messageQueue;
 
+    //Threads to handle pinging connected users and moving messages
     static PingHandler pinger;
     static MessageHandler messager;
 
     public static void main(String args[]) {
+        //initialize everything
         messageQueue = new LinkedBlockingQueue();
         init();
         pinger = new PingHandler(out, in, messageQueue);
@@ -63,7 +67,7 @@ public class Server {
 
     }
 
-    public void close() {
+    public void close() {   //method to close all the connections and readers/writers
         try {
             out.close();
             in.close();

@@ -22,9 +22,18 @@ public class ClientHandler extends ConnectionHandler {
     private static LinkedBlockingQueue<String> sendQueue;
     private static LinkedBlockingQueue<String> controlQueue;
 
-    public ClientHandler(PrintWriter pw, BufferedReader i, LinkedBlockingQueue iq, LinkedBlockingQueue sq) {
+    /**
+     *
+     * @param pw the output printwriter from a network connection
+     * @param i the input bufferedreader from a network connection
+     * @param cq the "control command queue" blocking queue. These are server
+     * @param iq the queue of incoming messages
+     * @param sq the queue of messages to be sent commands waiting to be run
+     */
+    public ClientHandler(PrintWriter pw, BufferedReader i, LinkedBlockingQueue cq, LinkedBlockingQueue iq, LinkedBlockingQueue sq) {
         super(pw, i, iq);
         sendQueue = sq;
+        controlQueue = cq;
     }
 
     private void pullMessage() throws IOException {
