@@ -21,14 +21,14 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class Server {
-    
+
     //Variables needed for operation
     public static int portNumber = 25565;
     static ServerSocket serverSocket;
     static Socket clientSocket;
     static PrintWriter out;
     static BufferedReader in;
-    
+
     //Queue to hold messages
     private static BlockingQueue messageQueue;
 
@@ -40,8 +40,21 @@ public class Server {
         //initialize everything
         messageQueue = new LinkedBlockingQueue();
         init();
-        pinger = new PingHandler(out, in, messageQueue);
+
+        //create the ping handler thread
+        ConnectionHandler ping = new PingHandler(out, in, messageQueue);
+        PingHandlerThread pingThread = new PingHandlerThread((PingHandler) ping);
+
+        //Create the message handler thread
+        ConnectionHandler message = new MessageHandler(out, in, messageQueue);
+        MessageHandlerThread messageThread = new MessageHandlerThread((MessageHandler) message);
+        //Start the ping thread
+        pingThread.start();
+        //Start the message thread
+        messageThread.start();
+
         messager = new MessageHandler(out, in, messageQueue);
+
         //Start the ping handler thread
         (new Thread(pinger)).start();
 

@@ -10,32 +10,32 @@
  */
 package JIRC.server;
 
-import java.io.BufferedReader;
-import java.io.PrintWriter;
 import java.io.IOException;
-import java.util.concurrent.BlockingQueue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class MessageHandler extends ConnectionHandler {
+public class PingHandlerThread extends Thread {
 
-    public MessageHandler(PrintWriter pw, BufferedReader i, BlockingQueue bq) {
-        super(pw, i, bq);
+    final ConnectionHandler ph;
+
+    public PingHandlerThread(PingHandler p) {
+        ph = p;
     }
 
-    void getMessages() throws IOException {
-        while (in.ready()) {
-            //add new messages to the queue
-            messageQueue.add(in.readLine());
+    public void run() {
+        while (true) {
+            synchronized (ph) {
+                try {
+                    ph.notifyAll();
+                    ((PingHandler) ph).ping();
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(PingHandlerThread.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(PingHandlerThread.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            }
         }
-    }
 
-    void pushMessages() {
-        //Push all the messages which remain in the queue
-        while (!messageQueue.isEmpty()) {
-            System.out.println("Pushing Messages");
-            out.println(messageQueue.remove());
-        }
     }
-
 }

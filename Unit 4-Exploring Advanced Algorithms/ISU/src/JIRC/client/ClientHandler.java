@@ -11,7 +11,7 @@
 package JIRC.client;
 
 //This class will pull messages and add them to the client queue, as well as push messages which are to be sent
-import JIRC.core.ConnectionHandler;
+import JIRC.server.ConnectionHandler;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;

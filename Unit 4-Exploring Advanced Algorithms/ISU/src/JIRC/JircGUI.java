@@ -31,6 +31,7 @@ public class JircGUI extends javax.swing.JFrame {
     PrintWriter out;
     BufferedReader in;
     static LinkedBlockingQueue<String> serverCommandQueue, toSendQueue, messageQueue;
+    String name = "Andrew";
 
     public JircGUI() throws IOException {
         initComponents();
@@ -48,6 +49,9 @@ public class JircGUI extends javax.swing.JFrame {
         client = new ClientHandler(out, in, serverCommandQueue, messageQueue, toSendQueue);
         //Start the client handler
         (new Thread(client)).start();
+
+        GUIUpdater updater = new GUIUpdater();
+        (new Thread(updater)).start();
     }
 
     private void initNetwork(String ip, int port) throws IOException {
@@ -182,7 +186,7 @@ public class JircGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSendActionPerformed
-        toSendQueue.add(txtMessage.getText());
+        toSendQueue.add("MSG*Andrew" + "**USR**" + txtMessage.getText());
     }//GEN-LAST:event_btnSendActionPerformed
 
     /**

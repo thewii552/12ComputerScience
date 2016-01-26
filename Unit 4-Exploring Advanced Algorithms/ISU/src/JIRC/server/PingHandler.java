@@ -10,7 +10,6 @@
  */
 package JIRC.server;
 
-import JIRC.core.ConnectionHandler;
 import JIRC.core.*;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -21,29 +20,35 @@ import java.util.concurrent.BlockingQueue;
 public class PingHandler extends ConnectionHandler {
 
     protected HashSet<User> users = new HashSet();
+    ConnectionHandler pinger;
 
     public PingHandler(PrintWriter pw, BufferedReader i, BlockingQueue bq) {
         super(pw, i, bq);
     }
 
-    @Override
+   /* @Override
     public void run() {
         while (true) {
             try {
+                //Notify the other 
                 //Ping everybody
                 ping();
+                
             } catch (InterruptedException | IOException ex) {
                 System.out.println(ex);
             }
         }
-    }
+    }*/
 
     public void ping() throws InterruptedException, IOException {
+        pinging=true;
         System.out.println("ping");
         //Ping all the connected users
         out.println("SERV*Ping");
         //Wait for responses with names
+        
         Thread.sleep(3000);
+        
         //Create a temporary list for connected users
         HashSet<User> temp = new HashSet();
 
@@ -64,6 +69,8 @@ public class PingHandler extends ConnectionHandler {
             //Push the update to all connected users
             sendList();
         }
+        
+        pinging = false;
     }
 
     public void sendList() {
