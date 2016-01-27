@@ -10,14 +10,13 @@
  */
 package JIRC.server;
 
-import static JIRC.server.ConnectionHandler.pinging;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class MessageHandlerThread extends Thread {
 
-    final ConnectionHandler mh;
+     ConnectionHandler mh;
 
     public MessageHandlerThread(MessageHandler m) {
         mh = m;
@@ -26,18 +25,11 @@ public class MessageHandlerThread extends Thread {
     public void run() {
         System.out.println("Started message handler thread");
         while (true) {
-            synchronized (mh) {
                 while (true) {
 
                     try {
 
-                        //Is the pinger thread running? if so, wait!
-                        if (pinging) {
-                            System.out.println("Pinging, so I'm a waiting!");
-                            mh.sleep(500);
-                        }
-                        System.out.println("Not pinging, so run!");
-
+                        
                         //Check if there are messages to be read in
                         if (mh.in.ready()) {
                             ((MessageHandler) mh).getMessages();
@@ -47,12 +39,12 @@ public class MessageHandlerThread extends Thread {
                         if (!mh.messageQueue.isEmpty()) {
                             ((MessageHandler) mh).pushMessages();
                         }
-                    } catch (IOException | InterruptedException ex) {
+                    } catch (IOException ex) {
                         Logger.getLogger(MessageHandler.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
 
-            }
+            
         }
 
     }

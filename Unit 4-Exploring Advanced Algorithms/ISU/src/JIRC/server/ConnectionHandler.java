@@ -26,5 +26,7 @@ public abstract class ConnectionHandler extends Thread {
         in = i;
         messageQueue = bq;
     }
+    
+    
 
 }

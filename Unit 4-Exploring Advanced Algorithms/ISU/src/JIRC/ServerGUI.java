@@ -6,6 +6,7 @@
 package JIRC;
 
 import JIRC.client.ClientHandler;
+import JIRC.server.Server;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -14,12 +15,13 @@ import java.net.Socket;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author andr6491
  */
-public class JircGUI extends javax.swing.JFrame implements ChatGUI{
+public class ServerGUI extends javax.swing.JFrame implements ChatGUI{
 
     /**
      * Creates new form ChatGUI
@@ -30,36 +32,27 @@ public class JircGUI extends javax.swing.JFrame implements ChatGUI{
     Socket echoSocket;
     PrintWriter out;
     BufferedReader in;
-    static LinkedBlockingQueue<String> serverCommandQueue, toSendQueue, messageQueue;
+    static LinkedBlockingQueue<String> toSendQueue, messageQueue;
     String name = "Andrew";
+    
+    
 
-    public JircGUI() throws IOException {
+    public ServerGUI() throws IOException {
         initComponents();
         txtMessage.setLineWrap(true);
 
         //initialize the queues
-        serverCommandQueue = new LinkedBlockingQueue<>();
-        toSendQueue = new LinkedBlockingQueue<>();
-        messageQueue = new LinkedBlockingQueue<>();
+       
+        toSendQueue = new LinkedBlockingQueue();
+        messageQueue = new LinkedBlockingQueue();
 
         //start up the networking
-        initNetwork("localhost", 25565);
+        
+        
 
-        //Initialize the client handler
-        client = new ClientHandler(out, in, serverCommandQueue, messageQueue, toSendQueue);
-        //Start the client handler
-        (new Thread(client)).start();
-
+       
         GUIUpdater updater = new GUIUpdater(this);
         (new Thread(updater)).start();
-    }
-
-    private void initNetwork(String ip, int port) throws IOException {
-        //Start up the network connection
-        echoSocket = new Socket(ip, port);
-        out = new PrintWriter(echoSocket.getOutputStream(), true);
-        in = new BufferedReader(
-                new InputStreamReader(echoSocket.getInputStream()));
     }
 
     public void updateMessages() {
@@ -91,13 +84,13 @@ public class JircGUI extends javax.swing.JFrame implements ChatGUI{
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        txtLog = new javax.swing.JTextArea();
         btnSend = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         txtMessage = new javax.swing.JTextArea();
         jScrollPane4 = new javax.swing.JScrollPane();
         jList2 = new javax.swing.JList();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        txtLog = new javax.swing.JTextArea();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
@@ -111,11 +104,6 @@ public class JircGUI extends javax.swing.JFrame implements ChatGUI{
             public Object getElementAt(int i) { return strings[i]; }
         });
         jScrollPane1.setViewportView(jList1);
-
-        txtLog.setEditable(false);
-        txtLog.setColumns(20);
-        txtLog.setRows(5);
-        jScrollPane2.setViewportView(txtLog);
 
         btnSend.setText("Send");
         btnSend.addActionListener(new java.awt.event.ActionListener() {
@@ -135,6 +123,10 @@ public class JircGUI extends javax.swing.JFrame implements ChatGUI{
             public Object getElementAt(int i) { return strings[i]; }
         });
         jScrollPane4.setViewportView(jList2);
+
+        txtLog.setColumns(20);
+        txtLog.setRows(5);
+        jScrollPane2.setViewportView(txtLog);
 
         jMenu1.setText("File");
         jMenuBar1.add(jMenu1);
@@ -156,12 +148,10 @@ public class JircGUI extends javax.swing.JFrame implements ChatGUI{
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 616, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 467, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(btnSend, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(btnSend, javax.swing.GroupLayout.DEFAULT_SIZE, 131, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -186,7 +176,7 @@ public class JircGUI extends javax.swing.JFrame implements ChatGUI{
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSendActionPerformed
-        toSendQueue.add("MSG*Andrew" + "**USR**" + txtMessage.getText());
+        toSendQueue.add("MSG*"+name + "**USR**" + txtMessage.getText());
     }//GEN-LAST:event_btnSendActionPerformed
 
     /**
@@ -206,26 +196,36 @@ public class JircGUI extends javax.swing.JFrame implements ChatGUI{
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(JircGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ServerGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(JircGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ServerGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(JircGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ServerGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(JircGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ServerGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        //</editor-fold>
+        
+        
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    new JircGUI().setVisible(true);
+                    new ServerGUI().setVisible(true);
                 } catch (IOException ex) {
-                    Logger.getLogger(JircGUI.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(ServerGUI.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
+            
         });
+        
+        //Start up the server
+        
+        //Run the server
+        JOptionPane.showMessageDialog(txtLog, "Server starting. Interface will unlock when client connects.");
+        Server server = new Server(toSendQueue, messageQueue, Integer.parseInt(args[1]));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

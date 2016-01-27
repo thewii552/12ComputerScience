@@ -14,12 +14,16 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class GUIUpdater implements Runnable {
+    ChatGUI mainclass;
+    public GUIUpdater(ChatGUI mc){
+        mainclass = mc;
+    }
 
     @Override
     public void run() {
         //Run the interface updates
         while (true) {
-            JircGUI.updateMessages();
+            mainclass.updateMessages();
             try {
                 Thread.sleep(100);
             } catch (InterruptedException ex) {

@@ -13,20 +13,23 @@ package JIRC.server;
 import java.io.BufferedReader;
 import java.io.PrintWriter;
 import java.io.IOException;
-import java.util.concurrent.BlockingQueue;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.concurrent.LinkedBlockingQueue;
+
 
 public class MessageHandler extends ConnectionHandler {
-
-    public MessageHandler(PrintWriter pw, BufferedReader i, BlockingQueue bq) {
-        super(pw, i, bq);
+    
+    LinkedBlockingQueue inQueue;
+    
+    public MessageHandler(PrintWriter pw, BufferedReader i, LinkedBlockingQueue oq, LinkedBlockingQueue iq) {
+        super(pw, i, oq);
+        inQueue = iq;
+        inQueue.add("This is a test");
     }
 
-    void getMessages() throws IOException {
+    void getMessages() throws IOException {        
         while (in.ready()) {
             //add new messages to the queue
-            messageQueue.add(in.readLine());
+            inQueue.add(in.readLine());
         }
     }
 

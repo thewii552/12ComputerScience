@@ -28,38 +28,31 @@ public class Server {
     static Socket clientSocket;
     static PrintWriter out;
     static BufferedReader in;
+    static String name= "Andrew";
 
     //Queue to hold messages
-    private static BlockingQueue messageQueue;
+    private static LinkedBlockingQueue messageQueue, inQueue;
 
     //Threads to handle pinging connected users and moving messages
-    static PingHandler pinger;
     static MessageHandler messager;
 
-    public static void main(String args[]) {
+    public Server(LinkedBlockingQueue mq,LinkedBlockingQueue iq, int port) {
         //initialize everything
-        messageQueue = new LinkedBlockingQueue();
+        inQueue = iq;
+        messageQueue = mq;
+        portNumber = port;
         init();
 
-        //create the ping handler thread
-        ConnectionHandler ping = new PingHandler(out, in, messageQueue);
-        PingHandlerThread pingThread = new PingHandlerThread((PingHandler) ping);
+        
 
         //Create the message handler thread
-        ConnectionHandler message = new MessageHandler(out, in, messageQueue);
+        ConnectionHandler message = new MessageHandler(out, in, messageQueue, inQueue);
         MessageHandlerThread messageThread = new MessageHandlerThread((MessageHandler) message);
         //Start the ping thread
-        pingThread.start();
         //Start the message thread
         messageThread.start();
 
-        messager = new MessageHandler(out, in, messageQueue);
-
-        //Start the ping handler thread
-        (new Thread(pinger)).start();
-
-        //Start the message handler thread
-        (new Thread(messager)).start();
+        
     }
 
     public static void init() {
@@ -68,11 +61,16 @@ public class Server {
         try {
 
             System.out.println("network started");
+            //Set up sockets and buffered IO
             serverSocket = new ServerSocket(portNumber);
             clientSocket = serverSocket.accept();
             out = new PrintWriter(clientSocket.getOutputStream(), true);
             in = new BufferedReader(
                     new InputStreamReader(clientSocket.getInputStream()));
+            
+            //Send out the username
+            out.println(name);
+            in.readLine();
         } catch (IOException e) {
             System.out.println(e);
         }
